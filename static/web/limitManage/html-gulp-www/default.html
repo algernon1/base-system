@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>蓝色公共头部样式</title>
+	<link rel="stylesheet" href="../../../base/css/baseBlue.css">
+	<link rel="stylesheet" href="../../../base/iconfont/iconfont.css">
+	<link rel="stylesheet" href="../../commonNav/css/commonHeaderBlue.css">
+    <link rel="stylesheet" type="text/css" href="../../../plugin/popup/css/manhuaDialog.1.0_blue.css">
+	<script src="../../../base/js/jquery.js"></script>
+	<script src="../../../base/js/public.js"></script>
+	<script src="../../../base/js/docassistant.js" ></script>
+	<script src="../../../base/js/jquery.cookie.js"></script>
+    <script src='../../titleName.js'></script>
+	<script src="../../reqConfig.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../../base/js/swfobject.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../../base/js/web_socket.js"></script>
+    <script src="../../../plugin/popup/script/manhuaDialog.1.0.js" type="text/javascript"></script>
+	<script>
+		$(function(){
+            // ws =  new WebSocket("ws://10.1.41.112:10183/websocket/"+ $.cookie("acctId"));//在线测试地址
+            // ws.onopen = function() {
+            //     //output("onopen");
+            // };
+            // ws.onmessage = function(e) {
+            //     // e.data contains received string.
+            //     output(e.data);
+            // };
+            // // ws.onclose = function() {
+            // //     output("onclose");
+            // // };
+            // ws.onerror = function() {
+            //     output("onerror");
+            // };
+
+
+            //loginFun('{"retCode":"0000000","aa":"123"}')
+		    getAjaxResult("/acct/getAcct","post",{},"loginFun(data)");
+			init();
+		    //导航的点击
+		    $(".og-head-navlist li a").on("click",function(){
+                $(".og-head-navlist li a").removeClass("og-head-navlist____linkActive");
+		        $(this).addClass("og-head-navlist____linkActive")
+				var indexInfo=$(this).parents(".og-head-navlist__item").index();
+                $(".og-head-mainlt__sidebar").css("display","none");
+		        $(".og-head-mainlt__sidebar").eq($(this).parents(".og-head-navlist__item").index()).css("display","")
+                // indexInfo
+                // $(".og-head-mainlt__sidebar .og-head-mainlt__sidebar--menu").eq(0).find("li").eq(0).find("a").addClass("og-head-mainlt__sidebar--shrinkActive");
+                // $(this).find("a").attr("acSrc")
+                window.location.href=$(".og-head-mainlt__sidebar").eq($(this).parents(".og-head-navlist__item").index()).find(".og-head-mainlt__sidebar--menu").eq(0).find(".og-head-mainlt__sasety").eq(0).find("a").attr("acSrc")
+			})
+			//左侧的点击事件
+			$(".og-head-mainlt__sidebar .og-head-mainlt__sasety").on("click",function(){
+                $(".og-head-mainlt__sidebar .og-head-mainlt__sasety").removeClass("og-head-mainlt__sidebar--shrinkActive");
+			    $(this).addClass("og-head-mainlt__sidebar--shrinkActive");
+			    window.location.href=$(this).find("a").attr("acSrc")
+				//$(this).parents(".og-head-mainlt__sidebar--menu").find("ul").css("display","");
+			})
+            //点击退出
+            $("#quitBtn").on("click",function(){
+                //getAjaxResult("/acct/remSession","post",{},"quitFun(data)");
+                $.ajax({
+                	url:"/acct/remSession",
+                	type:"post",
+                	data:{},
+                	success:function(data){
+                		quitFun(data)
+                	}
+                });
+
+            });
+		    $("#nobackC").click(function(){
+		        closePopupWin();
+			});
+		    $(".navwrap-role-gg,.navwrap-role-ggLog").hover(function () {
+				$(".navwrap-role-ggLog").show()
+            },function () {
+                $(".navwrap-role-ggLog").hide()
+            })
+		})
+        //退出接口
+        function quitFun(data){
+            var jsData=JSON.parse(data);//JSON.parse(data);
+            if(jsData.retCode=="0000000"){
+                $.cookie("acctId",null,{path:"/"});
+                $.cookie("orgId",null,{path:"/"});
+                $.cookie("acctType",null,{path:"/"});//0超级管理员， 1管理员， 2用户
+                window.location.href="/static/web/limitManage/html-gulp-www/login.html";
+            }else{
+                alert(jsData.retDesc)
+            }
+        }
+		//登陆以后调用的接口
+		function loginFun(data){
+		    var jsData=JSON.parse(data);
+		    if(jsData.retCode=="0000000"){
+		        $(".topwrap-div").css("display","none")
+		        $(".og-head-topleft").css("display","block");
+				$("#purchaseName").text(jsData.rspBody.name);
+			}else{
+				//alert(jsData.retDesc);
+				//window.location.href="/static/web/limitManage/html-gulp-www/login.html";
+			}
+		}
+		function init() {
+			var hiddenSpan=$("#hiddenSpan").text();
+			var isHomePage=$("#isHomePage").text();
+			if(hiddenSpan){
+                var arr=hiddenSpan.split(",");
+                $(".og-head-navlist li a").removeClass("og-head-navlist____linkActive");
+                $(".og-head-navlist li a").eq(arr[0]).addClass("og-head-navlist____linkActive");
+                $(".og-head-mainlt__sidebar .og-head-mainlt__sasety").removeClass("og-head-mainlt__sidebar--shrinkActive");
+                $(".og-head-mainlt__sidebar .og-head-mainlt__sidebar--menu").eq(arr[1]).find("li").eq(arr[2]).find("a").addClass("og-head-mainlt__sidebar--shrinkActive");
+			}else if(isHomePage){
+                $("#js-loader").css("width","1200px");
+			}
+
+        }
+        function output(str) {
+            $("#modelContent").html("");
+            $("#modelContent").append(str);
+            openWin("450","300","lookcontent",true);
+        }
+
+	</script>
+</head>
+<body style="position: relative;">
+<!-- 查看内容-->
+<div id="lookcontent" class="popup" style="display: none">
+	<div class="title">
+		<h2>公告提示栏</h2>
+		<div>
+			<a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+			<a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+			<a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+			<a class="close" href="javascript:;" title="关闭" style="display:none;"></a>
+		</div>
+	</div>
+	<div class="content supplier-list-con">
+
+		<div  id="modelContent" class="reason ml30" style="margin-left: 20px;height: 160px;overflow: auto">
+
+		</div>
+		<div class="btn">
+			<!--<a href="javascript:;" class="btnOne btnStyle1" id="">确认</a>-->
+			<a href="javascript:;" class="btnOne btnStyle1 nobackC" id="nobackC">返回</a>
+		</div>
+	</div>
+</div>
+<div class="AnnouncementBox" style="display: none">
+	<i class="AnnouncementBox-closeIcon close"><img src="../../../plugin/popup/image/closed1.png" alt=""></i>
+</div>
+	<div class="og-head">
+		<div class="og-head-top">
+			<div class="og-head-topwrap">
+				<div class="topwrap-div">
+                    <p>您的公告</p>
+					<!--<a href="../../login/html-gulp-www/login.html">请登录</a>
+					<a href="../../login/html-gulp-www/register.html" class="topwrap-div-span">免费注册</a>-->
+				</div>
+				<ul class="og-head-topleft" style="display:none">
+					<li class="og-head-topleft__item"><a href="javascript:;">您好，<span id="purchaseName"></span></a></li>
+					<li class="og-head-topleft__item">
+						消息中心
+						<span class="fc-e2">56</span>
+						<i class="arrow-down"></i>
+					</li>
+					<li class="og-head-topleft__item"><a href="javascript:;" id="quitBtn">[退出]</a></li>
+				</ul>
+				<ul class="og-head-topright">
+					<li class="og-head-topright__item">
+						<a href="javascript:;" class="og-head-topright__link">个人中心</a>
+					</li>
+					<li class="og-head-topright__item">
+						<a href="javascript:;" class="og-head-topright__link">服务热线</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="og-head-nav">
+	        <div class="og-head-navwrap">
+	            <div class="og-head-navlogo">
+	                <a href="javascript:;" class="og-head-navlogo__logoimg"></a>
+	            </div>
+	            <ul class="og-head-navlist">
+	                <li class="og-head-navlist__item"><a href="javascript:;" class="og-head-navlist__link">运营管理</a></li>
+	                <!--<li class="og-head-navlist__item"><a href="javascript:;" class="og-head-navlist__link">测试导航菜单</a></li>-->
+	                <!--<li class="og-head-navlist__item"><a href="javascript:;" class="og-head-navlist__link">采购</a></li>-->
+	                <!--<li class="og-head-navlist__item"><a href="javascript:;" class="og-head-navlist__link">招标</a></li>-->
+	                <!--<li class="og-head-navlist__item"><a href="javascript:;" class="og-head-navlist__link">权限设置</a></li>-->
+	            </ul>
+				<!--<div class="navwrap-arr-div">-->
+					<!--<i class="arr-div-fir"></i>-->
+					<!--<i class="arr-div-two"></i>-->
+				<!--</div>-->
+				<div class="navwrap-role-div">
+					<!--<div class="navwrap-role-gg">-->
+						<!--<i class="navwrap-role-ggBorder">2</i>-->
+						<!--<div class="navwrap-role-ggLog" style="background-clip: padding-box;border-collapse: separate;display: none">-->
+							<!--<ul class="navwrap-role-ggLogU">-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+								<!--<li>ddadasdadada</li>-->
+							<!--</ul>-->
+						<!--</div>-->
+					<!--</div>-->
+					<span>管理员</span><i class="role-div-i"></i>
+				</div>
+	        </div>
+	    </div>
+	   	<div class="og-head-main">
+	    	<div class="og-head-mainlt og-head-mainlt__homepaActive" id="js-leftNavBar">
+	    		<!--<div class="og-head-mainlt__homepa">
+	    			权限管理
+	    		</div>-->
+	    		<ul class="og-head-mainlt__sidebar">
+	    			<li class="og-head-mainlt__sidebar--menu">
+						<!--og-head-mainlt__sidebar--shrinkActive-->
+	    				<a class="og-head-mainlt__sidebar--shrink " href="javascript:;"><i class="arrow-up"></i><span class="arrow-span">权限管理</span></a>
+						<ul class="menu-ul">
+							<li class="og-head-mainlt__sasety" ><a href="javascript:;" href="javascript:;" acSrc="/static/web/limitManage/html-gulp-www/orgFrame.html">组织管理</a></li>
+							<li class="og-head-mainlt__sasety"><a href="javascript:;" href="javascript:;" acSrc="/static/web/limitManage/html-gulp-www/roleManage.html">角色管理</a></li>
+							<li class="og-head-mainlt__sasety" ><a href="javascript:;" href="javascript:;" acSrc="/static/web/limitManage/html-gulp-www/userManage.html">人员管理</a></li>
+							<li class="og-head-mainlt__sasety" ><a href="javascript:;" href="javascript:;" acSrc="/static/web/limitManage/html-gulp-www/resourceManage.html">资源管理</a></li>
+							<li class="og-head-mainlt__sasety" ><a href="javascript:;" href="javascript:;" acSrc="/static/web/limitManage/html-gulp-www/systemManage.html">系统管理</a></li>
+						</ul>
+	    			</li>
+					<!--<li class="og-head-mainlt__sidebar&#45;&#45;menu">
+						&lt;!&ndash;og-head-mainlt__sidebar&#45;&#45;shrinkActive&ndash;&gt;
+						<a class="og-head-mainlt__sidebar&#45;&#45;shrink " href="javascript:;"><i class="arrow-up"></i><span class="arrow-span">物料管理</span></a>
+						<ul class="menu-ul">
+							<li class="og-head-mainlt__sasety" ><a href="javascript:;" href="javascript:;">物料架构建立</a></li>
+							<li class="og-head-mainlt__sasety"><a href="javascript:;" href="javascript:;" >物料代码申请维护</a></li>
+							<li class="og-head-mainlt__sasety" ><a href="javascript:;" href="javascript:;">物料料明细查询</a></li>
+						</ul>
+					</li>-->
+	    		</ul>
+	    	</div>
+	    	<div id="js-loader" class="og-head-maincontent">
+
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>拖拽</title>
+<!-- <link rel="stylesheet" href="../css/resourchAd.css">
+<link rel="stylesheet" href="../css/useManage.css">
+<link rel="stylesheet" href="../../../plugin/page/css/table_blue.css">
+<link rel="stylesheet" href="../../../plugin/select/chosen_blue.css">
+<link rel="stylesheet" href="../../../plugin/treeview/jquery.treeview.css" />
+<link rel="stylesheet" href="../../../plugin/treeview/screen.css" />
+<link rel="stylesheet" type="text/css" href="../../../plugin/popup/css/manhuaDialog.1.0_blue.css">
+<link rel="stylesheet" href="../../../plugin/tip/css/tip-twitter/tip-twitter.css">
+<script src='../../../base/js/jquery.js'></script>
+<script src="../../../base/js/docassistant.js"></script>
+<script src="../../../base/js/public.js"></script>
+<script src="../../../reqConfig.js"></script>
+
+<script src="../../../plugin/tip/script/jquery.poshytip.js"></script>
+<script src="../../../plugin/select/chosen.jquery.js"></script>
+<script src="../../../base/js/validate.js"></script>
+<script src='../../../plugin/page/script/jquery.page.js'></script>
+<script src="../../../plugin/treeview/lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="../../../plugin/treeview/jquery.treeview.js" type="text/javascript"></script>
+<script src="../../../plugin/popup/script/manhuaDialog.1.0.js" type="text/javascript"></script>
+<script type="text/javascript" src="./a.js"></script> -->
+</head>
+<body>
+<p style="text-align:center;font:20px/40px 'Microsoft YaHei' ">默认页1</p>
+</body>
+</html>

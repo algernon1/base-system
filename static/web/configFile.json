@@ -1,0 +1,10 @@
+'{
+	"purchaseOrg":{//采购组织配置项
+		"isShow":false,//是否显示采购组织勾选框，false不显示，true显示
+		"text":"采购组织"
+	},
+	"company":{//公司配置项
+		"isShow":true,//是否显示公司勾选框，false不显示，true显示
+		"text":"公司"
+	}
+}'

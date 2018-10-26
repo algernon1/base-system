@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://10.5.210.201:8013/static/base/js/jquery.js"></script><!-- jQuery is required -->
+	<script src="./viewer.js" id="a"></script>
+	<link  href="./viewer.min.css" rel="stylesheet">
+	<style>
+		ul{
+
+		}
+		li{
+			width:100px;
+			height:100px;
+			vertical-align:middle;
+			text-align:center;
+
+		}
+		li img {
+			max-width:100px;
+			max-height:100px;
+			vertical-align:middle;
+		}
+	</style>
+</head>
+<body>
+
+	<div>
+	  <ul id="images">
+	    <li><img src="http://10.5.210.201:7777/group1/M00/00/01/CgXSyVt8yYGAcpX6AAMy-yp-1j4538.jpg" alt="Picture 1"></li>
+	    <li><img src="http://10.5.210.201:7777/group1/M00/00/01/CgXSyVt8yl-AAx1mAAB4QExiSxs991.png" alt="Picture 2"></li>
+	    <li></li>
+	  </ul>
+	</div>
+	<script>
+
+		$('#images').viewer();
+		$("#images li").eq(2).append('<img src="http://10.5.210.201:7777/group1/M00/00/01/CgXSyVt8yl-AAx1mAAB4QExiSxs991.png">')
+			// var $image = $('#image');
+
+			// $image.viewer({
+			//   inline: true,
+			//   viewed: function() {
+			//     $image.viewer('zoomTo', 1);
+			//   }
+			// });
+
+			// // Get the Viewer.js instance after initialized
+			// var viewer = $image.data('viewer');
+
+			// View a list of images
+			var oJs = document.createElement("js")
+			$(oJs).attr("src","./viewer.js")
+			$("body").append(oJs);
+		$("#images li").eq(2).find("img")[0].onload = function(){
+			$('#images').viewer();
+		}
+	</script>
+</body>
+</html>

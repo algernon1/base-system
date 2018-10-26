@@ -1,0 +1,79 @@
+@@include('../../commonNav/html/commonHeaderBlue.html')
+
+<script src="../../configFile.js"></script>
+<script src="../../../plugin/select/chosen.jquery.js"></script>
+<link rel="stylesheet" href="../../../plugin/select/chosen.min.css">
+<script>
+	$(function(){
+		var a = new globalConfigFunc();
+		a.configSelect({
+			"idName":"jurisSelect",
+			"url":"../../configFile.js",
+			"method":"get",
+            "beforeFuncName":"beforeFuncName",
+			"callbackName":"jurisSuccessFunc",
+			"selCode":"proOrgType",
+			"data":configFileJson.org//组织配置项数据
+		});
+
+		a.configSelect({
+			"idName":"roleSelect",
+			"url":"../../configFile.js",
+			"method":"get",
+            "beforeFuncName":"beforeFuncName",
+			"callbackName":"roleSuccessFunc",
+			"selCode":"proRoleType",
+			"data":configFileJson.role//角色配置项数据
+		});	
+		
+
+		//唯一性校验
+		a.rule({
+			"idName":"onceJy",
+			"url":"../../configFile.js",
+			"method":"get",
+			"reqParam":{},
+			"callbackName":"checkSuccessFunc",
+			"data":configFileJson.rule//
+		})
+
+
+
+	});
+
+	function beforeFuncName(dom){
+		console.log(dom)
+		return {
+				"roleId":"116",
+				"proRoleType":[1,2]
+			}
+	}
+	function jurisSuccessFunc(data){
+	    console.log(data)
+	};
+	function roleSuccessFunc(data){
+	    console.log(data)
+	};
+
+
+
+	function checkSuccessFunc(data){
+		alert(1);
+	    console.log(data)
+	};
+
+	function test()
+	{
+		var arr = [1,2];
+		$("#jurisSelect")[0].jsCtrl.setValue(null,null,arr);
+	}
+</script>
+<body>
+	<input type="button" value="测试" onclick="test();">
+	<select name="" id="jurisSelect" multiple style="width:200px;" >
+	</select>
+	<select name="" id="roleSelect" multiple style="width:200px;" >
+	</select>
+	<input type="text" id="onceJy" style="border:1px solid black">
+</body>
+</html>

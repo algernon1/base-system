@@ -1,0 +1,444 @@
+@@include('../../commonNav/html/commonHeaderBlue.html')
+<span id="hiddenSpan" style="display:none">0,0,1</span>
+    <title>角色管理</title>
+    <link rel="stylesheet" href="../css/resourchAd.css">
+    <link rel="stylesheet" href="../css/useManage.css">
+    <link rel="stylesheet" href="../../../plugin/page/css/table_blue.css">
+    <link rel="stylesheet" href="../../../plugin/select/chosen_blue.css">
+    <link rel="stylesheet" href="../../../plugin/treeview/jquery.treeview.css" />
+    <link rel="stylesheet" href="../../../plugin/treeview/screen.css" />
+    <link rel="stylesheet" type="text/css" href="../../../plugin/popup/css/manhuaDialog.1.0_blue.css">
+    <link rel="stylesheet" href="../../../plugin/tip/css/tip-twitter/tip-twitter.css">
+
+    <script src="../../../plugin/tip/script/jquery.poshytip.js"></script>
+    <script src="../../../plugin/select/chosen.jquery.js"></script>
+    <script src="../../../base/js/validate.js"></script>
+    <script src='../../../plugin/page/script/jquery.page.js'></script>
+    <script src="../../../plugin/treeview/jquery.treeview.js" type="text/javascript"></script>
+    <script src="../../../plugin/popup/script/manhuaDialog.1.0.js" type="text/javascript"></script>
+    <script src="../js/permissionManage.js"></script>
+    <script src="../js/roleManage.js"></script>
+    <script src="../../configFile.js"></script>
+    <style>
+        #orgCloneRow {
+            padding:5px 10px;
+        }
+        #orgCloneRow:hover {
+            background:#f2f2f2;
+        }
+    </style>
+    
+    <div class="resourceAd">
+        <div class="resourceAd-con">
+            <div class="resourceAd-con-left">
+                <div class="left-div">
+                    <span class="left-div-fir">
+                        <span class="fir-span">角色分类</span>
+
+                        <select name="" id="sysList" emptyValue="notnull" comtype="singleSelectCtrl" reqParam='{}' method="post" reqPath="/sysInfo/selectSysInfoOrgSee" selValue="sysTitle" selCode="sysId"></select>
+                        <a href="javascript:;" id="chooseZzBtn">组织</a>
+                    </span>
+                    <a href="javascript:;" class="left-div-two" id="root">根目录</a>
+                </div>
+
+                <div id="looptree">
+                </div>
+
+            </div>
+            <div class="resourceAd-con-right">
+                <div class="right-head">
+                    <ul class="right-head-ul" id="btnGather">
+                        <!-- <a href="javascript:;" class="div-a-add" id="createNewRule" style="display:none"><i class="add-i"></i><span>新建角色</span></a>
+                        <a href="javascript:;" class="div-a-add" id="createNewRules" style="display:none"><i class="add-i"></i><span>新建分类</span></a>
+                        <a href="javascript:;" class="div-a-add" id="deleteRuleOrRules" style="display:none"><i class="add-i del-i"></i><span>删除</span></a>
+                        <a href="javascript:;" class="div-a-add" id="editRuleOrRules" style="display:none"><i class="add-i com-i"></i><span>编辑</span></a> -->
+
+
+                        <li id="createNewRule" style="display:none"><i class="ul-iFir"></i><a href="javascript:;" class="ul-fir">新建角色</a></li>
+                        <li id="createNewRules" style="display:none"><i class="ul-iFir"></i><a href="javascript:;" class="ul-fir">新建分类</a></li>
+                        <li id="editRuleOrRules" style="display:none"><i class="ul-iTwo"></i><a href="javascript:;" class="ul-two">编辑</a></li>
+                        <li id="deleteRuleOrRules" style="display:none"><i class="ul-iThr"></i><a href="javascript:;" class="ul-tree">删除</a></li>
+                    </ul>
+                </div>
+                <div class="right-con">
+                    <!-- <div class="right-con-tit">
+                        <span>权限列表</span>
+                        <span>权限操作</span>
+                    </div> -->
+                    <div class="right-con-fot">
+
+                        <ul id="detailRow" class="fot-ul" style="display:none">
+                            <li class="fot-ul-li fot-ul-img">
+                                <img src="../images/roleP.png"><span>角色信息</span>
+                            </li>
+                            <li class="fot-ul-li"><span>角色名称：</span><span class="fot-ul-span" id="roleTitle"></span></li>
+                            <li class="fot-ul-li"><span>角色id：</span><span class="fot-ul-span" id="roleId"></span></li>
+                            <li class="fot-ul-li"><span>角色编码：</span><span class="fot-ul-span" id="roleCode"></span></li>
+                            <li class="fot-ul-li"><span>角色类型名称：</span><span class="fot-ul-span" id="roleTypeTitle"></span></li>
+                            <li class="fot-ul-li"><span>角色状态：</span><input type="checkbox" id="status"></li>
+                            <li class="fot-ul-li"><span>角色权限：</span><a href="javascript:;" id="checkRole">查看</a></li>
+                            <li class="fot-ul-li"><span>创建人：</span><span class="fot-ul-span" id="createdBy"></span></li>
+                            <li class="fot-ul-li"><span>创建时间：</span><span class="fot-ul-span" id="createdTime"></span></li>
+                            <li class="fot-ul-li"><span>修改人：</span><span class="fot-ul-span" id="updatedBy"></span></li>
+                            <li class="fot-ul-li"><span>修改时间：</span><span class="fot-ul-span" id="updatedTime"></span></li>
+
+                            <li class="fot-ul-li"><span>已引用该角色的组织：</span><a href="javascript:;" id="refernenceRole">查看</a></li>
+                            <li class="fot-ul-li"><span>未引用该角色的组织：</span><a href="javascript:;" id="refernenceRole1">查看</a></li>
+                            <li class="fot-ul-li" style="display:none" id="copyRoleLi"><span>复制该角色</span><a href="javascript:;" id="copyRole">复制</a></li>
+                            <li  class="fot-ul-li" style="width:90%">
+                                <span>角色赋权：</span>
+                                <select name="" id="roleSelect" multiple style="width:300px;margin:0;display:none"></select>
+                            </li>
+                            <li class="font-ul-explain"><span class="explain-span">说明:</span><span></span></li>
+                        </ul>
+
+                        <ul id="detailRow1" class="fot-ul" style="display:none">
+                            <li class="fot-ul-li fot-ul-img">
+                                <img src="../images/roleP.png"><span>角色组信息</span>
+                            </li>
+                            <li class="fot-ul-li"><span>角色组名称：</span><span class="fot-ul-span" id="roleGroupTitle"></span></li>
+                            <li class="fot-ul-li"><span>角色组id：</span><span class="fot-ul-span" id="roleGroupId"></span></li>
+                            <!-- <li><span>角色组编码：</span><span class="fot-ul-span" id="roleGroupCode"></span></li> -->   
+                            <!-- <li><span>角色组描述：</span><span class="fot-ul-span" id="roleGroupDesc"></span></li> -->
+                            <li class="fot-ul-li"><span>创建人：</span><span class="fot-ul-span" id="createdBy"></span></li>
+                            <li class="fot-ul-li"><span>创建时间：</span><span class="fot-ul-span" id="createdTime"></span></li>
+                            <li class="fot-ul-li"><span>修改人：</span><span class="fot-ul-span" id="updatedBy"></span></li>
+                            <li class="fot-ul-li"><span>修改时间：</span><span class="fot-ul-span" id="updatedTime"></span></li>
+                            <!-- <li><span>角色组状态：</span><input type="checkbox" id="status" checked></li> -->
+                            <li class="font-ul-explain"><span class="explain-span">说明:</span><span></span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="resource" style="display:none">
+                    <div class="resource-div">
+                        <span>
+                            暂无角色、
+                        </span>
+                        <a href="javascript:;" id="creatRule1">
+                            添加角色
+                        </a>/
+                        <a href="javascript:;" id="creatRules1">
+                            添加分类
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- 新建/编辑角色-->
+<div id="resourchSe" class="popup" style="display:none">
+    <div class="title"><h2>新建角色</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content" style="height: 180px;">
+        <div class="resourchSe" style="padding:0 30px;">
+            <ul class="resourchSe-ul">
+                <li><label>名称：</label><input type="text" class="required" id="roleTitle"/></li>
+                <li style="position:relative;display:none"><label>选择组织：</label><!-- <input type="text" id="orgId"/> -->
+
+
+                    <div type="text" class="userNewPopup-ulist-list-input" id="selectOrganization"></div>
+                    <div class="userNewPopup-ulist-listPopup" id="selectOrganizationPopup" style="display: none;">
+                        <div>
+                            <ul class="userNewPopup-ulist-listBox" id="organizationList"  templateId="templateRow" reqPath="" reqParam="" method="POST">
+                                <li class="userNewPopup-ulListBox-list" id="orgSelectDetail" style="height: auto;min-height: 30px;">
+                                    当前组织：
+                                    <span id="templateList" style="display: none;">
+                                        <span id="orgNameShow"></span>
+                                        <b id="orgNameShowDelete" class="userNewPopup-ulListBox-list-delete">X</b>
+                                    </span>
+                                </li>
+                                <li class="userNewPopup-ulListBox-list" id="templateRow" style="display: none;"><span id="orgName"></span></li>
+                                <li class="userNewPopup-ulListBox-list" id="orgSelectDetail">
+                                    <div class="userNewPopup-ulListBox-list-btn" id="organizationSelectSure">确认</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </li>
+                <li><label>所属分类：</label><!-- <select name="" id="roleGroupId" comtype="singleSelectCtrl" reqPath="/roleGroup/roleGroupAll" reqParam="{}" selValue="roleGroupTitle" selCode="roleGroupId"></select> -->
+                    <span id="roleGroupTitle">/</span>
+                </li>
+                <li><label>默认启用：</label><input type="checkbox" checked id="status"/></li>
+            </ul>
+            <!-- <div class="mod-search-div">
+                <a href="javascript:;" class="mod-searchBtn ml20"><span>确定</span></a>
+            </div> -->
+        </div>
+        <div class="btn">
+
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="creatRule" style="display:none">确定</a>
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="creatRuleEdit" style="display:none">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1_1" id="cancelRule">取消</a>
+        </div>
+    </div>
+</div>
+<!-- 给角色重新分配权限角色-->
+<div id="resourchSeSet" class="popup" style="display:none">
+    <div class="title"><h2>查看角色</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content" style="height: 180px;">
+        <!-- <div class="resourchSe" style="padding:0 30px;">
+            <ul class="resourchSe-ul">
+                <li><label>名称：</label><input type="text" class="required" id="functionTitle"/></li>
+                <li><label>选择分类：</label><select name="" id="" comtype="singleSelectCtrl" reqPath="/roleGroup/roleGroupAll" reqParam="{}" selValue="roleGroupTitle" selCode="roleGroupId"></select></li>
+                <li><label>选择组织：</label><input type="text" id="orgId"/></li>
+                <li><label>默认启用：</label><input type="checkbox" checked id="status"/></li>
+            </ul>
+        </div> -->
+
+        <div id="looptree1" style="height:210px;overflow:scroll"></div>
+        <div class="btn">
+
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="saveRoleResource">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1_1" id="cancelRoleResource">取消</a>
+        </div>
+    </div>
+</div>
+<!-- 新增/编辑分类-->
+<div id="resourchFl" class="popup" style="display:none">
+    <div class="title"><h2>新增分类</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content" style="height: 180px;">
+        <div class="resourchSe" style="padding:0 30px;">
+            <ul class="resourchSe-ul">
+                <li><label>名称：</label><input type="text" class="required" id="roleGroupTitle"/></li>
+                <!-- <li style="position:relative"><label>选择组织：</label><input type="text" id="orgId"></li> -->
+                <li style="position:relative;display:none"><label>选择组织：</label><!-- <input type="text" id="orgId"/> -->
+
+
+                    <div type="text" class="userNewPopup-ulist-list-input" id="selectOrganization"></div>
+                    <div class="userNewPopup-ulist-listPopup" id="selectOrganizationPopup" style="display: none;">
+                        <div>
+                            <ul class="userNewPopup-ulist-listBox" id="organizationList"  templateId="templateRow" reqPath="" reqParam="" method="POST">
+                                <li class="userNewPopup-ulListBox-list" id="orgSelectDetail" style="height: auto;min-height: 30px;">
+                                    当前组织：
+                                    <span id="templateList" style="display: none;">
+                                        <span id="orgNameShow"></span>
+                                        <b id="orgNameShowDelete" class="userNewPopup-ulListBox-list-delete">X</b>
+                                    </span>
+                                </li>
+                                <li class="userNewPopup-ulListBox-list" id="templateRow" style="display: none;"><span id="orgName"></span></li>
+                                <li class="userNewPopup-ulListBox-list" id="orgSelectDetail">
+                                    <div class="userNewPopup-ulListBox-list-btn" id="organizationSelectSure">确认</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </li>
+                <!-- <li style="display:none"><label>是否启用：</label><input type="checkbox" id="status" checked/></li> -->
+            </ul>
+            <!-- <div class="mod-search-div">
+                <a href="javascript:;" class="mod-searchBtn ml20"><span>确定</span></a>
+            </div> -->
+        </div>
+        <div class="btn">
+
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="creatRules" style="display:none">确定</a>
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="creatRulesEdit" style="display:none">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1_1" id="cancelRules">取消</a>
+        </div>
+    </div>
+</div>
+
+<!-- 删除角色/分类弹窗-->
+<div id="resourchSe2" class="popup" style="display:none">
+    <div class="title"><h2>删除角色</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content" style="height: 180px;">
+        <div>
+            确认删除该角色！
+        </div>
+        <div class="btn">
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="deleteBtn">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1_1" id="cancelDelBtn">取消</a>
+        </div>
+    </div>
+</div>
+<!-- 选择组织弹窗-->
+<div id="chooseZz" class="popup" style="display:none">
+    <div class="title"><h2>选择组织</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content">
+        <div id="looptree2" style="height:280px;overflow:scroll">
+            
+        </div>
+        <div class="btn">
+            <!-- <p class="tl"><span style="color:red">*</span>如果不选择组织，将直接显示该用户默认关联的组织下数据</p> -->
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="czSureBtn">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1 mr10" id="czCancelBtn">取消</a>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 选择组织弹窗  角色已引用的组织-->
+<div id="referneceBox" class="popup" style="display:none">
+    <div class="title"><h2>选择组织</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content">
+        <table class="table-list" id="org-table" comtype="" -page="tcdPageCode" templateid="templateRow" reqpath="/orgInfo/selectRoleQuoteOrg" reqparam="{}" method="post" nodata="nonData" chkid="chkCoding" iscachecond="id" clschk="clsChk" clsallchk="clsAllChk" idx="idx">
+                <tr class="table-list-currentrow table-list-currentrowActive">
+                    <th class="table-list-currentrow-theader">
+                        <input type="checkbox" id="allChk" comtype="checkAll" cond="" class="clsChk" uniontableid="org-table" chkid="chkCoding">
+                    </th>
+                    <th class="table-list-currentrow-theader">
+                        组织名称
+                    </th>
+                </tr>
+                <tr class="table-list-currentrow" id="templateRow" style="display:none">
+                    <td class="table-list-currentrow-tdetail">
+                        <input type="checkbox" id="chkCoding" class="clsChk">
+                    </td>
+                    <td id="orgName">
+                        
+                    </td>
+                </tr>
+            </table>
+            <div class="noDataCon" id="nonData" style="display:none">
+                <i></i>
+                <p>暂无数据</p>
+            </div>
+        <div class="btn">
+            <!-- <p class="tl"><span style="color:red">*</span>如果不选择组织，将直接显示该用户默认关联的组织下数据</p> -->
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="referneceBtn">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1 mr10" id="referneceCancelBtn">取消</a>
+        </div>
+    </div>
+</div>
+<!-- 选择组织弹窗  角色未引用的组织-->
+<div id="referneceBox1" class="popup" style="display:none">
+    <div class="title"><h2>选择组织</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content">
+        <div>
+            <div class="" style="float:left;width:455px;margin:0 0 0 20px;height:400px;border:1px solid #dee3e6">
+                <table class="table-list" id="org-table1" comtype="" page="tcdPageCode" templateid="templateRow" reqpath="/orgInfo/selectRoleYesQuote" reqparam="{}" method="post" nodata="nonData1">
+                    <tr class="table-list-currentrow table-list-currentrowActive">
+                        <th class="table-list-currentrow-theader">
+                            组织名称
+                        </th>
+                        <th class="table-list-currentrow-theader">
+                            操作
+                        </th>
+                    </tr>
+                    <tr class="table-list-currentrow" id="templateRow" style="display:none">
+                        <td id="orgName" class="table-list-currentrow-tdetail">
+                            
+                        </td>
+                        <td class="table-list-currentrow-tdetail">
+                            <a href="javascript:;" id="addOrg">添加</a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="noDataCon" id="nonData1" style="display:none">
+                    <i></i>
+                    <p>暂无数据</p>
+                </div>
+                <div class="tcdPageCode"></div>
+            </div>
+            <div style="width:50px;height:400px;float:left;line-height:400px;text-align:center;">
+                <img src="../images/rightArrow.png" alt="">
+            </div>
+            <ul style="float:left;width:150px;;height:400px;border:1px solid #dee3e6" id="orgList">
+                <li id="orgTemplateRow" style="display:none">
+                    <span></span>
+                    <i class="deleteOrg"><img src="../images/delete.png" alt="" style="width:15px;height:15px;"></i>
+                </li>
+            </ul>
+        </div>
+        <div class="btn">
+            <!-- <p class="tl"><span style="color:red">*</span>如果不选择组织，将直接显示该用户默认关联的组织下数据</p> -->
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="referneceBtn1">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1 mr10" id="referneceCancelBtn1">取消</a>
+        </div>
+    </div>
+</div>
+
+<!-- 复制角色弹窗-->
+<div id="copyRoleBox" class="popup" style="display:none">
+    <div class="title"><h2>新增分类</h2>
+            <div>
+                <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+                <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+                <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+                <a class="close" href="javascript:;" title="关闭"></a>
+            </div>
+    </div>
+    <div class="content" style="height: 180px;">
+        <div class="resourchSe" style="padding:0 30px;">
+            <ul class="resourchSe-ul">
+                <li><label>名称：</label><input type="text" class="required" id="copyRoleTitle"></li>
+                <li><label>所属分类：</label>
+                    <span id="roleGroupTitle">-</span>
+                </li>
+                <li><label>默认启用：</label><input type="checkbox" checked="" id="copyStatus"></li>
+            </ul>
+        </div>
+        <div class="btn">
+
+            <a href="javascript:" class="btnOne btnStyle1 mr10" id="sureCopy">确定</a>
+            <a href="javascript:" class="btnSecond btnStyle1_1" id="cancelCopy">取消</a>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<div class="resourceSet" style="display:none">
+    <ul class="resourceSet-ul">
+        <li><span>有效时间：</span><span>2018年1月1日</span></li>
+        <li><span>有效时间：</span><span>2018年1月1日</span></li>
+        <li><span>有效时间：</span><span>2018年1月1日</span></li>
+
+    </ul>
+    <div class="mod-search-div">
+        <a href="javascript:;" class="mod-searchBtn ml20"><span>删除</span></a>
+        <a href="javascript:;" class="mod-searchBtn ml20"><span>关闭</span></a>
+    </div>
+</div> -->
+    @@include('../../commonNav/html/commonFoot.html')

@@ -1,0 +1,31 @@
+﻿//var publicUrl = 'static/';
+module.exports={
+    "base":{//供应商
+        "sassSrc":"base/sass/*.scss",
+        "cssSrc":"base/css",
+        "htmlSrc":"base/html/!*.html"
+    },
+    "commonNavOp":{//头部
+        "sassSrc":"web/commonNav/sass/*.scss",
+        "cssSrc":"web/commonNav/css",
+        "htmlSrc":"web/commonNav/html/!*.html"
+    },
+    "index":{//头部
+        "sassSrc":"web/homePage/sass/*.scss",
+        "cssSrc":"web/homePage/css",
+        "htmlIncAfter":"web/homePage/html-www/*.html",
+        "htmlIncBefore":"web/homePage/html-gulp-www"
+    },
+    "limitManage":{//权限管理
+        "sassSrc":"web/limitManage/sass/*.scss",
+        "cssSrc":"web/limitManage/css",
+        "htmlIncAfter":"web/limitManage/html-www/*.html",
+        "htmlIncBefore":"web/limitManage/html-gulp-www"
+    },
+    "login":{//登陆
+        "sassSrc":"web/login/sass/*.scss",
+        "cssSrc":"web/login/css",
+        "htmlIncAfter":"web/login/html-www/*.html",
+        "htmlIncBefore":"web/login/html-gulp-www"
+    }
+};

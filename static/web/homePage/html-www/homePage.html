@@ -1,0 +1,211 @@
+@@include('../../commonNav/html/commonHeaderBlue.html')
+    <link rel="stylesheet" href="../css/homePage.css">
+    <link rel="stylesheet" href="../../../base/css/baseOrange.css">
+    <link rel="stylesheet" href="../../../base/css/baseBlue.css">
+    <link rel="stylesheet" href="../../../base/iconfont/iconfont.css">
+<script>
+    $(document).ready(function () {
+        $('.dynamic-title-orange b').on('click', function () {
+            $('.dynamic-title-white').css({"left":-50})
+        })
+    })
+</script>
+<span id="isHomePage" style="display: none;">1</span>
+    <div class="home">
+        <div class="home-supermarket">
+            <div class="home-supermarket-left">
+                <div class="home-supermarket-title">
+                    <h1>永辉超市</h1>
+                    <span>详细信息维护</span>
+                </div>
+                <div class="home-supermarket-list">
+                    <ul>
+                        <li>
+                            <h6>公司简称</h6>
+                            <span>永辉超市</span>
+                        </li>
+                        <li>
+                            <h6>供应商编码</h6>
+                            <span>永辉超市</span>
+                        </li>
+                        <li>
+                            <h6>境内外关系</h6>
+                            <span>境内机构</span>
+                        </li>
+                        <li>
+                            <h6>机构性质</h6>
+                            <span>事业单位</span>
+                        </li>
+                        <li>
+                            <h6>特准供应商</h6>
+                            <span>否</span>
+                        </li>
+                        <li>
+                            <h6>企业性质</h6>
+                            <span>股份合作企业</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 生命周期 -->
+                <div class="home-supermarket-cycle">
+
+                </div>
+            </div>
+            <div class="home-supermarket-right">
+                <div class="home-supermarket-rightTop">
+                    <div class="btnLowImgCom  clearfix" id="edit">
+                        <span class="btnLowImg-img iconfont icon-bj"></span>
+                        <span class="btnLowImg-txt">编辑</span>
+                    </div>
+                </div>
+                <div class="home-supermarket-rightBottom">
+                    <h5>系统消息</h5>
+                    <p>ERP数据来源:</p>
+                    <p>创建时间:</p>
+                    <p>更新时间:</p>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <div class="business">
+            <div class="business-title">
+                <div class="business-title-sign">
+                    <span class="business-title-point"></span>
+                </div>
+                <div class="business-title-name">
+                    <h6>业务提醒</h6>
+                    <i class="iconfont icon-xiaoxitixing"></i>
+                </div>
+                <div class="business-title-warn"><h3>交易提醒</h3>
+                    <div class="dynamic-title-orange">
+                            <div class="dynamic-title-white">
+                                <span class="dynamic-title-white1"></span>
+                                <b></b>
+                                <span class="dynamic-title-white2"></span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="business-table">
+                <ul>
+                    <li class="business-tableli">
+                        <b>交易前</b>
+                        <ol class="business-tableEvery">
+                            <li class="business-tableEveryli">
+                                <strong></strong>收到的询价单</li>
+                            <li class="business-tableEveryli">
+                                <strong></strong>加急订单</li>
+                            <li class="business-tableEveryli">
+                                <strong></strong>代发货</li>
+                            <li class="business-tableEveryli">
+                                <strong></strong>发出的询价单</li>
+                            <li class="business-tableEveryli">
+                                <strong></strong>确认</li>
+                        </ol>
+                    </li>
+                    <li class="business-tableli">
+                        <b>交易中</b>
+                        <ol class="business-tableEvery">
+                            <li class="business-tableEveryli">
+                                <strong></strong>待买家收获</l>
+                        </ol>
+                        </li>
+                        <li class="business-tableli">
+                            <b>交易后</b>
+                            <ol class="business-tableEvery">
+                                <li class="business-tableEveryli">
+                                    <strong></strong>待确认对账单</li>
+                                <li class="business-tableEveryli">
+                                    <strong></strong>待对账</li>
+                                <li class="business-tableEveryli">
+                                    <strong></strong>待开票对账单</l>
+                            </ol>
+                            </li>
+                </ul>
+            </div>
+        </div>
+        <div class="dynamic">
+            <div class="dynamic-title">
+                <div class="dynamic-title-sign">
+                    <span class="dynamic-title-point"></span>
+                </div>
+                <div class="dynamic-title-name">
+                    <h6>消息动态</h6>
+                    <i></i>
+                </div>
+                <div class="btnLowNew" id="refresh">刷新
+                </div>
+            </div>
+            <div class="dynamic-table"> 
+                <ul>
+                    <li>系统消息</li>
+                    <li>公司动态</li>
+                    <li>求购动态</li>
+                    <li>商友圈</li>
+                    <li>行业资讯</li>
+                    <li class="dynamic-table-Everys">
+                        <i class="iconfont icon-msnui-refresh"></i>
+                        刷新
+                    </li>
+                    <li class="dynamic-table-Every">
+                        <i class="iconfont icon-guanli"></i>
+                        我的全部消息
+                    </li>
+                </ul>
+                <div class="dynamic-table-info">
+                    <div class="dynamic-table-infoLeft">
+                        <div class="dynamic-table-infoLeftyuan">
+                            <div class="dynamic-table-infoLeftball">
+                                <div class="dynamic-table-infoLeftminball"></div>
+                            </div>
+                            <div class="dynamic-table-infoLeftline"></div>
+                            <div class="dynamic-table-infoLeftball">
+                                    <div class="dynamic-table-infoLeftminball"></div>
+                                </div>
+                                <div class="dynamic-table-infoLeftline1"></div>
+                                <div class="dynamic-table-infoLeftball">
+                                        <div class="dynamic-table-infoLeftminball"></div>
+                                    </div>
+                                    <div class="dynamic-table-infoLeftline2"></div>
+                        </div>
+                    </div>
+                    <div class="dynamic-table-infoRight">
+                        <dl class="dynamic-table-infoRightlist">
+                            <dt class="dynamic-table-infoRightlistdt">
+                                <div class="dynamic-table-time">
+                                    <span>2018-7-30</span>
+                                    <b>17:12:10</b>
+                                </div>
+                                <p>供应商报价【测试】</p>
+                            </dt>
+                            <dd class="dynamic-table-infoRightlistdd">【飞科演示用供应商】提交了一个报价，报价单号RFQ2018073000000000002请查看</dd>
+                        </dl>
+                        <dl class="dynamic-table-infoRightlist">
+                                <dt class="dynamic-table-infoRightlistdt">
+                                    <div class="dynamic-table-time">
+                                        <span>2018-7-30</span>
+                                        <b>17:12:10</b>
+                                    </div>
+                                    <p>供应商报价【测试】</p>
+                                </dt>
+                                <dd class="dynamic-table-infoRightlistdd">【飞科演示用供应商】提交了一个报价，报价单号RFQ2018073000000000002请查看</dd>
+                            </dl>
+                            <dl class="dynamic-table-infoRightlist">
+                                    <dt class="dynamic-table-infoRightlistdt">
+                                        <div class="dynamic-table-time">
+                                            <span>2018-7-30</span>
+                                            <b>17:12:10</b>
+                                        </div>
+                                        <p>供应商报价【测试】</p>
+                                    </dt>
+                                    <dd class="dynamic-table-infoRightlistdd">【飞科演示用供应商】提交了一个报价，报价单号RFQ2018073000000000002请查看</dd>
+                                </dl>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- @@include('../../commonNav/html/commonFoot.html') -->
+@@include('../../commonNav/html/commonFoot.html')

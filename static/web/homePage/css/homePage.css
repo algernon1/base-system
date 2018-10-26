@@ -1,0 +1,125 @@
+* { padding: 0; margin: 0; list-style: none; }
+
+.home { margin: 20px auto; width: 1200px; }
+
+.home-supermarket { display: flex; margin: 16px 42px; height: 310px; }
+
+.home-supermarket .home-supermarket-left { width: 760px; margin: 10px; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-title { display: flex; align-items: center; height: 50px; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-title h1 { font-weight: normal; font-size: 26px; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-title span { font-size: 14px; margin-left: 25px; display: inline-block; width: 100px; height: 26px; line-height: 28px; text-align: center; border-radius: 5px; border: 1px solid #dee3e6; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-list { width: 760px; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-list ul { display: flex; flex-wrap: wrap; margin: 12px 8px; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-list ul li { display: flex; align-items: center; width: 300px; height: 36px; margin-right: 60px; text-align: center; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-list ul li h6 { width: 150px; font-weight: normal; text-align: left; }
+
+.home-supermarket .home-supermarket-left .home-supermarket-list ul li span { font-size: 14px; font-weight: bold; }
+
+.home-supermarket .home-supermarket-right { width: 320px; }
+
+.home-supermarket .home-supermarket-right .home-supermarket-rightTop { position: relative; width: 270px; height: 200px; margin-left: 50px; border: 1px solid #dee3e6; }
+
+.home-supermarket .home-supermarket-right .home-supermarket-rightTop #edit { position: absolute; top: 3px; right: 6px; color: #6390f3; }
+
+.home-supermarket .home-supermarket-right .home-supermarket-rightBottom { width: 270px; height: 100px; margin-left: 50px; border: 1px solid #dee3e6; margin-top: 2px; }
+
+.home-supermarket .home-supermarket-right .home-supermarket-rightBottom h5 { font-size: 16px; margin-left: 20px; height: 28px; line-height: 28px; font-weight: normal; }
+
+.home-supermarket .home-supermarket-right .home-supermarket-rightBottom p { margin-left: 20px; font-size: 12px; height: 22px; line-height: 22px; }
+
+.business { width: 1200px; margin-top: 60px; }
+
+.business .business-title { position: relative; display: flex; width: 1200px; align-items: center; }
+
+.business .business-title .business-title-sign { position: relative; width: 42px; height: 30px; line-height: 30px; background: #f8faff; }
+
+.business .business-title .business-title-sign .business-title-point { position: absolute; top: 10px; right: 4px; display: inline-block; width: 7px; height: 7px; border-radius: 50px; background: black; }
+
+.business .business-title .business-title-name { display: flex; margin-left: 15px; }
+
+.business .business-title .business-title-name h6 { font-size: 14px; font-weight: normal; margin-right: 4px; }
+
+.business .business-title .business-title-warn { display: flex; align-items: center; position: absolute; width: 200px; right: 0; }
+
+.business .business-title .business-title-warn h3 { width: 60px; font-size: 14px; font-weight: normal; }
+
+.business .business-title .business-title-warn .dynamic-title-orange { position: absolute; right: 38px; width: 80px; height: 30px; border-radius: 40px; overflow: hidden; }
+
+.business .business-title .business-title-warn .dynamic-title-orange .dynamic-title-white { display: flex; transition: all 1s; position: absolute; top: 0; left: 0; width: 130px; height: 30px; background: plum; border-radius: 40px; }
+
+.business .business-title .business-title-warn .dynamic-title-orange .dynamic-title-white .dynamic-title-white1 { display: inline-block; position: absolute; top: 0; left: 0; width: 65px; height: 30px; background: orange; }
+
+.business .business-title .business-title-warn .dynamic-title-orange .dynamic-title-white b { position: absolute; top: 0; left: 50px; display: inline-block; width: 32px; height: 32px; border-radius: 50%; z-index: 9999; background: white; }
+
+.business .business-title .business-title-warn .dynamic-title-orange .dynamic-title-white .dynamic-title-white2 { display: inline-block; position: absolute; top: 0; left: 65px; width: 65px; height: 30px; background: blue; border: 1px solid white; }
+
+.business .business-table { margin: 30px 42px; border-top: 1px dashed #dee3e6; }
+
+.business .business-table .business-tableli { cursor: pointer; display: flex; height: 38px; align-items: center; border: 1px dashed #dee3e6; border-top: none; }
+
+.business .business-table .business-tableli b { font-weight: normal; font-size: 14px; width: 120px; text-align: center; margin: 1px; border-right: 1px dashed #dee3e6; }
+
+.business .business-table .business-tableli .business-tableEvery { display: flex; }
+
+.business .business-table .business-tableli .business-tableEvery .business-tableEveryli { cursor: pointer; display: flex; align-items: center; margin-left: 30px; font-size: 12px; }
+
+.business .business-table .business-tableli .business-tableEvery .business-tableEveryli strong { display: inline-block; width: 5px; height: 5px; border: 1px solid black; border-radius: 50px; margin-right: 6px; }
+
+.dynamic { width: 1200px; margin-top: 40px; }
+
+.dynamic .dynamic-title { position: relative; display: flex; width: 1200px; align-items: center; }
+
+.dynamic .dynamic-title .dynamic-title-sign { position: relative; width: 42px; height: 30px; line-height: 30px; background: #f8faff; }
+
+.dynamic .dynamic-title .dynamic-title-sign .dynamic-title-point { position: absolute; top: 10px; right: 4px; display: inline-block; width: 7px; height: 7px; border-radius: 50px; background: black; }
+
+.dynamic .dynamic-title .dynamic-title-name { margin-left: 15px; }
+
+.dynamic .dynamic-title .dynamic-title-name h6 { font-size: 14px; font-weight: normal; }
+
+.dynamic .dynamic-title #refresh { position: absolute; right: 45px; top: 20px; }
+
+.dynamic .dynamic-table { position: relative; margin: 30px 42px; }
+
+.dynamic .dynamic-table ul { display: flex; align-items: center; border: 1px solid #dee3e6; background: #f2f2f2; height: 40px; line-height: 40px; font-size: 12px; }
+
+.dynamic .dynamic-table ul li { display: inline-block; width: 100px; height: 38px; border-right: 1px solid #dee3e6; text-align: center; cursor: pointer; }
+
+.dynamic .dynamic-table ul .dynamic-table-Every:last-child { cursor: pointer; display: flex; align-items: center; position: absolute; right: 6px; border-right: none; color: #6390f3; width: 120px; }
+
+.dynamic .dynamic-table ul .dynamic-table-Every:last-child i { margin-right: 4px; }
+
+.dynamic .dynamic-table ul .dynamic-table-Everys { cursor: pointer; display: flex; border-right: none; width: 100px; justify-content: center; color: #6390f3; }
+
+.dynamic .dynamic-table ul .dynamic-table-Everys i { margin-right: 4px; }
+
+.dynamic .dynamic-table-info { display: flex; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft { margin: 40px 0; width: 90px; height: 300px; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft .dynamic-table-infoLeftyuan { margin-left: 38px; width: 20px; height: 20px; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft .dynamic-table-infoLeftyuan .dynamic-table-infoLeftball { width: 14px; height: 14px; border: 1px solid #c7c7c7; border-radius: 50px; text-align: center; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft .dynamic-table-infoLeftyuan .dynamic-table-infoLeftball .dynamic-table-infoLeftminball { width: 8px; height: 8px; border-radius: 50px; background: #8a8a8a; margin: 3px auto; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft .dynamic-table-infoLeftyuan .dynamic-table-infoLeftline { width: 8px; height: 50px; border-right: 1px dashed #dee3e6; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft .dynamic-table-infoLeftyuan .dynamic-table-infoLeftline1 { width: 8px; height: 70px; border-right: 1px dashed #dee3e6; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoLeft .dynamic-table-infoLeftyuan .dynamic-table-infoLeftline2 { width: 8px; height: 90px; border-right: 1px dashed #dee3e6; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoRight { width: 660px; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoRight .dynamic-table-infoRightlist { margin: 30px 0; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoRight .dynamic-table-infoRightlist .dynamic-table-infoRightlistdt { display: flex; height: 30px; align-items: center; }
+
+.dynamic .dynamic-table-info .dynamic-table-infoRight .dynamic-table-infoRightlist .dynamic-table-infoRightlistdt .dynamic-table-time b { margin-left: 10px; margin-right: 10px; }
