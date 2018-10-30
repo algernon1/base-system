@@ -17,12 +17,12 @@ var fileinclude  = require('gulp-file-include');
 //头部
 gulp.task('fileinclude', function() {
     // 适配page中所有文件夹下的所有html，排除page下的include文件夹中html
-    gulp.src(['static/project/limitManage/html-www/*.html'])
+    gulp.src(['static/web/limitManage/html-www/*.html'])
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file'
         }))
-        .pipe(gulp.dest('static/project/limitManage/html-gulp-www'));
+        .pipe(gulp.dest('static/web/limitManage/html-gulp-www'));
 });
 function cssSet(cfg) {
 	console.log(cfg.sassSrc)

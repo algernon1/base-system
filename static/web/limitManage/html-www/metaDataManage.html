@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	
-</body>
-</html>
+ @@include('../../commonNav/html/commonHeaderBlue.html')
+<span id="hiddenSpan" style="display:none">0,0,5</span>
+
+<link rel="stylesheet" href="../../../plugin/popup/css/manhuaDialog.1.0_blue.css">
+<link rel="stylesheet" href="../../../plugin/page/css/table.css">
+<link rel="stylesheet" href="../../../plugin/tip/css/tip-twitter/tip-twitter.css">
+<link rel="stylesheet" href="../../../plugin/select/chosen_blue.css">
+
+<script src="../../../plugin/popup/script/manhuaDialog.1.0.js"></script>
+<script type="text/javascript" src="../../../plugin/page/script/jquery.page.js"></script>
+<script type="text/javascript" src="../../../plugin/tip/script/jquery.poshytip.js"></script>
+<script src="../../../plugin/select/chosen.jquery.js"></script>
+
+<table id="tableList" comtype="standardTableCtrl" templateid="templateRow" page="tcdPageCode" idx="indexNum" reqpath="/sysAcct/sysAcctList" reqparam="{}" method="POST" nodata="noDataCon" reqmethod="POST">
+    <tr>
+    	<th>序号</th>
+    	<th>表名</th>
+    	<th>表名CODE</th>
+    	<th>表描述</th>
+    	<th>主键名称</th>
+    	<th>主键CODE</th>
+    	<th>主键类型</th>
+    	<th>创建人</th>
+    	<th>编辑</th>
+    </tr>
+    <tr id="templateRow" style="display: none;">
+    	<td>序号</td>
+    	<td>表名</td>
+    	<td>表名CODE</td>
+    	<td>表描述</td>
+    	<td>主键名称</td>
+    	<td>主键CODE</td>
+    	<td>主键类型</td>
+    	<td>创建人</td>
+    	<td>编辑</td>
+    </tr>
+</table>
+
+<div class="noDataCon">
+    <i></i>
+    <p>暂无数据......</p>
+</div>
+<div class="tcdPageCode"></div>
+@@include('../../commonNav/html/commonFoot.html')
