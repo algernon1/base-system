@@ -191,9 +191,9 @@
         $(".relevance").on("click",function(){
             var url="";
             switch ($(this).attr("rel")){
-                case "1":url="/static/operater/limitManage/html-gulp-www/userManage.html";break;
-                case "2":url="/static/operater/limitManage/html-gulp-www/roleManage.html";break;
-                case "3":url="/static/operater/limitManage/html-gulp-www/resourceManage.html";break;
+                case "1":url="/static/web/limitManage/html-gulp-www/userManage.html";break;
+                case "2":url="/static/web/limitManage/html-gulp-www/roleManage.html";break;
+                case "3":url="/static/web/limitManage/html-gulp-www/resourceManage.html";break;
             }
             window.open(encodeURI(url+"?orgId="+$(this).parents("#fotTable")[0].jsonData.id+"&orgName="+$(this).parents("#fotTable")[0].jsonData.orgName))
         })
