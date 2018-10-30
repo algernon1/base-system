@@ -41,7 +41,7 @@ function jumpUrl(strUrl,status,jumpType,data)
                  objWin.href = "/shop/index.php?act=login";
                  break;*/
             case "0200000":
-                window.location.href="/static/operater/limitManage/html-gulp-www/login.html";
+                window.location.href="/static/web/login/html-gulp-www/login.html";
                 break;
             default:
                 if(status != 0000000 && data != null)
