@@ -252,42 +252,117 @@
 <link rel="stylesheet" href="../../../plugin/page/css/table.css">
 <link rel="stylesheet" href="../../../plugin/tip/css/tip-twitter/tip-twitter.css">
 <link rel="stylesheet" href="../../../plugin/select/chosen_blue.css">
+<link rel="stylesheet" href="../css/metaDataManage.css">
+
+<script src="../../../plugin/select/chosen.jquery.js"></script>
+<script src="../../../base/js/validate.js"></script>
 
 <script src="../../../plugin/popup/script/manhuaDialog.1.0.js"></script>
 <script type="text/javascript" src="../../../plugin/page/script/jquery.page.js"></script>
 <script type="text/javascript" src="../../../plugin/tip/script/jquery.poshytip.js"></script>
-<script src="../../../plugin/select/chosen.jquery.js"></script>
+<script type="text/javascript" src="../js/metaDataManage.js"></script>
+<div class="metaData-content">
+    </select>
+    <div class="metaData-choose">
+        <span class="fl">
+            选择系统：
+        </span>
+        <select name="" id="sysList" emptyvalue="notnull" comtype="singleSelectCtrl" reqparam="{}" method="post" reqpath="/sysInfo/selectSysInfoOrgSee" selvalue="sysTitle" selcode="sysId" style="display: none;"></select>
+    </div>
+    <div class="metaData-search" id="searchBox">
+        <select class="fl comSelect" id="conditionSelect" style="width:100px;">
+            <option>表名</option>
+            <option>表名CODE</option>
+        </select>
+        <input class="fl metaData-search__input" id="tableName" placeholder="请输入表名">
+        <div class="fl metaData-search__btn" comtype="searchBtnCtrl" cond="tableName" rule="cond" uniontableid="tableList" parentid="searchBox" id="searchBtn">搜索</div>
+        <div class="metaData-search__btn fl" id="createTable" style="margin-left: 10px;">新建</div>
+    </div>
+    <table id="tableList" class="metaData-table" comtype="" templateid="templateRow" page="tcdPageCode" idx="indexNum" reqpath="/theMetadata/findpageresult" reqparam="{}" method="POST" nodata="noDataCon" reqmethod="POST">
+        <tr>
+            <th>序号</th>
+            <th>表名</th>
+            <th>表名CODE</th>
+            <th>表描述</th>
+            <th>主键名称</th>
+            <th>主键CODE</th>
+            <th>主键类型</th>
+            <th>创建人</th>
+            <th>编辑</th>
+        </tr>
+        <tr id="templateRow" style="display: none;">
+            <td id="indexNum"></td>
+            <td id="tableName"></td>
+            <td id="tableNameCode"></td>
+            <td id="tableDescribe"></td>
+            <td id="keyName"></td>
+            <td id="keyCode"></td>
+            <td id="keyType"></td>
+            <td id="updatedBy"></td>
+            <td>
+                <a href="javascript:;">编辑</a>
+                <a href="javascript:;" id="deleteTable">删除</a>
+            </td>
+        </tr>
+    </table>
 
-<table id="tableList" comtype="standardTableCtrl" templateid="templateRow" page="tcdPageCode" idx="indexNum" reqpath="/sysAcct/sysAcctList" reqparam="{}" method="POST" nodata="noDataCon" reqmethod="POST">
-    <tr>
-    	<th>序号</th>
-    	<th>表名</th>
-    	<th>表名CODE</th>
-    	<th>表描述</th>
-    	<th>主键名称</th>
-    	<th>主键CODE</th>
-    	<th>主键类型</th>
-    	<th>创建人</th>
-    	<th>编辑</th>
-    </tr>
-    <tr id="templateRow" style="display: none;">
-    	<td>序号</td>
-    	<td>表名</td>
-    	<td>表名CODE</td>
-    	<td>表描述</td>
-    	<td>主键名称</td>
-    	<td>主键CODE</td>
-    	<td>主键类型</td>
-    	<td>创建人</td>
-    	<td>编辑</td>
-    </tr>
-</table>
+    <div class="noDataCon" id="noDataCon">
+        <i></i>
+        <p>暂无数据......</p>
+    </div>
+    <div class="tcdPageCode"></div>
 
-<div class="noDataCon">
-    <i></i>
-    <p>暂无数据......</p>
+    <table id="tableListChild" class="metaData-table" -comtype="standardTableCtrl" templateid="templateRow1" page="tcdPageCode1" idx="indexNum" reqpath="" reqparam="{}" method="POST" nodata="noDataCon1" reqmethod="POST">
+        <tr>
+            <th>序号</th>
+            <th>维度</th>
+            <th>表达式</th>
+            <th>操作</th>
+        </tr>
+        <tr id="templateRow1" style="display: none;">
+            <td>序号</td>
+            <td>维度</td>
+            <td>表达式</td>
+            <td>编辑权限</td>
+        </tr>
+    </table>
+    <div class="noDataCon" id="noDataCon1">
+        <i></i>
+        <p>暂无数据......</p>
+    </div>
+    <div class="tcdPageCode tcdPageCode2"></div>
+   
 </div>
-<div class="tcdPageCode"></div>
+
+
+<div id="metaData-create" class="popup" style="display:none">
+    <div class="title" style="">
+        <h2>新建表</h2>
+        <div>
+            <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+            <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+            <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+            <a class="close" href="javascript:;" title="关闭" style="display:block;"></a>
+        </div>
+    </div>
+    <div class="content" style="height: 260px;">
+        <div class="metaData-create-list" id="">
+            <ul class="clearfix">
+                <li class="ml20"><label>表名：</label><input type="text" class="required" id="tableName"></li>
+                <li class="ml20"><label>表名CODE：</label><input type="text" class="required" id="tableNameCode"></li>
+                <li class="ml20"><label>表描述：</label><input type="text" class="required" id="tableDescribe"></li>
+                <li class="ml20"><label>主键CODE：</label><input type="text" class="required" id="keyCode"></li>
+                <li class="ml20"><label>主键类型：</label><input type="text" class="required" id="keyType"></li>
+                <li class="ml20"><label>主键名称：</label><input type="text" class="required" id="keyName"></li>
+                <li class="ml20"><label>是否启用：</label><input type="checkbox" name="" checked id="status"></li>
+            </ul>
+            <div class="btn">
+                <a href="javascript:" class="btnOne btnStyle1 mr10" id="createTableSure">确定</a>
+                <a href="javascript:" class="btnSecond btnStyle1_1" id="createTableCancel">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 </div>
 </div>

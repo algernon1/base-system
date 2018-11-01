@@ -1,3 +1,9 @@
 /node_modules/
 /base/js/
 
+/web/limitManage/css/metaDataManage.css
+/web/limitManage/sass/metaDataManage.scss
+/web/limitManage/js/metaDataManage.js
+/web/limitManage/html-www/metaDataManage.html
+/web/limitManage/html-gulp-www/metaDataManage.html
+

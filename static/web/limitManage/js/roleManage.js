@@ -139,9 +139,9 @@ function roleSuccessFunc(data){
                         
 
                         /******************角色赋权开始*******************/
-                        getAjaxResult("/acctRolePurchase/selectAcctRolePurchaseType", "post", {
-                            "roleId":parentData.roleId,
-                        }, "roleManage.utils.successEchoFunc(data)");
+                        // getAjaxResult("/acctRolePurchase/selectAcctRolePurchaseType", "post", {
+                        //     "roleId":parentData.roleId,
+                        // }, "roleManage.utils.successEchoFunc(data)");
 
                         /*******************角色赋权结束*******************/
 
