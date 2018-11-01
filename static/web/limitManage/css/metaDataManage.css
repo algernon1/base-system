@@ -1,0 +1,27 @@
+@charset "UTF-8";
+.metaData-choose { height: 30px; padding: 15px; }
+
+.metaData-search { height: 32px; margin-bottom: 32px; }
+
+.metaData-search .metaData-search__input { height: 30px; border: 1px solid #eee; width: 540px; margin-right: 46px; padding-left: 20px; border-radius: 4px; }
+
+.metaData-search .metaData-search__btn { width: 70px; height: 32px; cursor: pointer; line-height: 32px; text-align: center; border-radius: 2px; background: #2d8cf0; color: #fff; }
+
+.metaData-table { border: 1px solid #eee; width: 100%; table-layout: fixed; }
+
+.metaData-table td, .metaData-table th { height: 32px; }
+
+.metaData-table th { text-align: center; border: 1px solid #eee; background: #eaeaeb; height: 40px; }
+
+.metaData-table td { border: 1px solid #eee; height: 32px; text-align: center; }
+
+.metaData-create-list { padding-top: 10px; }
+
+.metaData-create-list li { float: left; width: 220px; padding: 5px; }
+
+.metaData-create-list label { float: left; text-align: right; width: 70px; }
+
+.metaData-create-list input[type=text] { width: 120px; border: 1px solid #eee; padding: 0 5px; height: 30px; line-height: 30px; }
+
+/***select插件样式修改***/
+.chosen-container { float: left; margin-top: 0 !important; }
