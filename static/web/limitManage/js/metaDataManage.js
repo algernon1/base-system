@@ -9,12 +9,13 @@
 		options = options || {};
         this.initializeElements();//初始化属性
 		this.eventsMap = {//时间集合
-            'change #conditionSelect':"changeCondition",//切换查询条件
+            'change #sysList':"changeSysList",//切换查询条件
             'change #conditionSelect':"changeCondition",//切换查询条件
             'click #createTable':"clickCreateTable",
             "click #createTableSure":"clickCreateTableSure",
             "click #createTableCancel":"clickCreateTableCancel",
             "click #deleteTable":"clickDeleteTable",
+            "click #editTable":"clickEditTable"
 
 		};
 		this.initialization();
@@ -67,6 +68,10 @@
                     }
                 }
             }
+        },
+        clearValue: function(dom){
+            $(dom).find("input").val("");
+            $(dom).find("#status").prop("checked",true);
         }
 	}
 
@@ -103,6 +108,9 @@
             document.body.jsCtrl.ctrl = this.tableList[0];
             document.body.jsCtrl.init();
         },
+        changeSysList: function(){
+            this.initData();
+        },
         changeCondition: function(e){
         	//utils.getDom(e).find("option:selected").text()
         	var text = utils.getDom(e).find("option:selected").text();
@@ -115,12 +123,16 @@
         		conditionText.attr("id","tableNameCode");
         		this.searchBtn.attr("cond","tableNameCode");
         	}
-        	conditionText.attr("placeholder","请输入" + text)
+        	conditionText.attr("placeholder","请输入" + text);
+            document.body.jsCtrl.ctrl = this.searchBtn[0];
+            document.body.jsCtrl.init();
         },
         clickCreateTable: function(e){
+            this.metaDataCreate[0].jsonData = null;
+            utils.clearValue(this.metaDataCreate[0]);
         	openWin(500, 300, "metaData-create", true);
         },
-        clickCreateTableSure: function(){
+        clickCreateTableSure: function(e){
         	initValidate(this.metaDataCreate[0]);
             var obj = new clsValidateCtrl();  
             if(obj.validateAll())
@@ -141,22 +153,41 @@
 	        		"status":status,
 	        		"sysId":this.sysList.find("option:selected").val()
 	        	};
-	        	getAjaxResultNew({
-                    "strPath":"/theMetadata/save", 
-                    "method":"post", 
-                    "param":reqParam,
-                    "obj":this.tableList,
-                    callbackMethod:function(data){
-                        console.log(this.obj)
-                        data = JSON.parse(data);
-                        if(data.retCode == "0000000"){
-                            closePopupWin();
-                            document.body.jsCtrl.ctrl = this.obj[0];
-                            document.body.jsCtrl.init();
+                if(utils.getDom(e).parents("#metaData-create").find(".title h2").text() == "新建表"){//新建表
+                    getAjaxResultNew({
+                        "strPath":"/theMetadata/save", 
+                        "method":"post", 
+                        "param":reqParam,
+                        "obj":this.tableList,
+                        callbackMethod:function(data){
+                            console.log(this.obj)
+                            data = JSON.parse(data);
+                            if(data.retCode == "0000000"){
+                                closePopupWin();
+                                document.body.jsCtrl.ctrl = this.obj[0];
+                                document.body.jsCtrl.init();
+                            }
                         }
-                    }
 
-                });
+                    });
+                }else if(utils.getDom(e).parents("#metaData-create").find(".title h2").text() == "编辑表"){//编辑表
+                    reqParam.id = this.metaDataCreate[0].jsonData.id;
+                    getAjaxResultNew({
+                        "strPath":"/theMetadata/update", 
+                        "method":"post", 
+                        "param":reqParam,
+                        "obj":this.tableList,
+                        callbackMethod:function(data){
+                            data = JSON.parse(data);
+                            if(data.retCode == "0000000"){
+                                closePopupWin();
+                                document.body.jsCtrl.ctrl = this.obj[0];
+                                document.body.jsCtrl.init();
+                            }
+                        }
+
+                    });
+                }
             }
         },
         clickCreateTableCancel: function(){
@@ -165,13 +196,27 @@
         clickDeleteTable: function(e){
         	var reqParam = {};
         	reqParam.id = utils.getDom(e).parents("#cloneRow")[0].jsonData.id;
-        	getAjaxResult("/theMetadata/delete", "post", reqParam, function(data){
-	        	data = JSON.parse(data);
-        		if(data.retCode == "0000000"){
-		            document.body.jsCtrl.ctrl = this.tableList[0];
-		            document.body.jsCtrl.init();
-        		}
-        	});
+
+        	getAjaxResultNew({
+                "strPath":"/theMetadata/delete", 
+                "method":"post", 
+                "param":reqParam, 
+                "obj":this.tableList,
+                callbackMethod: function(data){
+    	        	data = JSON.parse(data);
+            		if(data.retCode == "0000000"){
+    		            document.body.jsCtrl.ctrl = this.obj[0];
+    		            document.body.jsCtrl.init();
+            		}
+            	}
+            });
+        },
+        clickEditTable: function(e){
+            this.metaDataCreate.find(".title h2").text("编辑表");
+            openWin(500, 300, "metaData-create", true);
+            this.metaDataCreate[0].jsonData = utils.getDom(e).parents("#cloneRow")[0].jsonData;
+            utils.setValueGlobal(utils.getDom(e).parents("#cloneRow")[0].jsonData,this.metaDataCreate[0])
+
         },
         _scanEventsMap: function(maps, isOn){
         	//扫描事件
