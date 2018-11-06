@@ -41,7 +41,8 @@
             <th>主键CODE</th>
             <th>主键类型</th>
             <th>创建人</th>
-            <th>编辑</th>
+            <th>操作表</th>
+            <th>操作表达式</th>
         </tr>
         <tr id="templateRow" style="display: none;">
             <td id="indexNum"></td>
@@ -56,6 +57,10 @@
                 <a href="javascript:;" id="editTable">编辑</a>
                 <a href="javascript:;" id="deleteTable">删除</a>
             </td>
+            <td>
+                <a href="javascript:;" id="createOrEditExp">新建</a>
+                <a href="javascript:;" id="checkExp">查看</a>
+            </td>
         </tr>
     </table>
 
@@ -65,7 +70,7 @@
     </div>
     <div class="tcdPageCode"></div>
 
-    <table id="tableListChild" class="metaData-table" -comtype="standardTableCtrl" templateid="templateRow1" page="tcdPageCode1" idx="indexNum" reqpath="" reqparam="{}" method="POST" nodata="noDataCon1" reqmethod="POST">
+   <!--  <table id="tableListChild" class="metaData-table" -comtype="standardTableCtrl" templateid="templateRow1" page="tcdPageCode1" idx="indexNum" reqpath="" reqparam="{}" method="POST" nodata="noDataCon1" reqmethod="POST">
         <tr>
             <th>序号</th>
             <th>维度</th>
@@ -78,6 +83,45 @@
             <td>表达式</td>
             <td>编辑权限</td>
         </tr>
+    </table> -->
+
+    <table  class="metaData-table" id="metaData-child-table" border="0" cellspacing="0" cellpadding="0" class="metaData-child-table" id="" templateParentId="templateParent" templateChildId="templateChild" templateGrandChildId="templateGrandChild" comType="thirdLevelTableCtrl" nStartStep="0" jsonSecondName="children" jsonThirdName="children" reqPath="/powerExpression/findpageresult" reqParam="{}" idx="idx" nodata="noDataCon1" >
+        <!--第一个表格-->
+        <thead>
+            <tr>
+                <th style="width: 5%" class="leftBorder">序号</th>
+                <th style="width: 10%" class="leftBorder">创建人</th>
+                <th style="width: 40%">维度</th>
+                <th style="width: 46%">表达式</th>
+                <th style="width: 5%">操作</th>            
+            </tr>
+        </thead>
+        <tbody class="">
+            <!--一行开始-->
+            <tr style="display:none" id="templateParent">
+                <td id="idx"></td>
+                <td id="createdBy"></td>
+                <td colspan="2">
+                    <table style="width: 100%;">
+                        <tr id="templateChild" style="display:none">
+                            <td id="roleName">
+
+                            </td>
+                            <td>
+                               <table style="width:100%">
+                                   <tr id="templateGrandChild" style="display:none">
+                                       <td id="roleExpression"></td>
+                                   </tr>
+                               </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <a href="javascript:;">操作</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
     <div class="noDataCon" id="noDataCon1">
         <i></i>

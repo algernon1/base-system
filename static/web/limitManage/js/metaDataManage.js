@@ -1,3 +1,11 @@
+function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
+    $(cloneRow).find("#createOrEditExp").click(function(){
+        window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + cloneRow.jsonData.id
+    })
+}
+
+
+
 
 (function($, global, doc){
 	'use strict';
@@ -5,7 +13,7 @@
     var globalFunctionId = "";
     var orgId = GetQueryString("orgId");//组织id
     var orgName = decodeURI(GetQueryString("orgName"));//组织名称====中文转义
-	var resourceManage = function(options){//构造器
+	var metaDataManage = function(options){//构造器
 		options = options || {};
         this.initializeElements();//初始化属性
 		this.eventsMap = {//时间集合
@@ -15,13 +23,15 @@
             "click #createTableSure":"clickCreateTableSure",
             "click #createTableCancel":"clickCreateTableCancel",
             "click #deleteTable":"clickDeleteTable",
-            "click #editTable":"clickEditTable"
+            "click #editTable":"clickEditTable",
+            "click #createOrEditExp":"clickCreateOrEditExp",
+            "click #checkExp":"clickCheckExp",
 
 		};
 		this.initialization();
 	}
 
-	resourceManage.Eles = {// 定义构造函数静态属性，挂载所有选择器的属性
+	metaDataManage.Eles = {// 定义构造函数静态属性，挂载所有选择器的属性
 		"comSelect":".comSelect",
 		"conditionSelect":"#conditionSelect",
 		"sysList":"#sysList",
@@ -30,7 +40,8 @@
 		"searchBox":"#searchBox",
 		"searchBtn":"#searchBtn",
 		"metaDataCreate":"#metaData-create",
-		"deleteTable":"#deleteTable"
+		"deleteTable":"#deleteTable",
+        "metaDataChildTable":"#metaData-child-table"
 
 	}
 
@@ -76,14 +87,14 @@
 	}
 
 
-	resourceManage.prototype = {
-		constructor:resourceManage,
+	metaDataManage.prototype = {
+		constructor:metaDataManage,
 		initialization:function(){
+            this.initData();
             
             this.initWidgets();//初始化组件
             this.bindEvent(this.eventsMap);//绑定事件
 
-            this.initData();
 
             $(this.comSelect).chosen({
 			    //disable_search_threshold: 5,
@@ -95,7 +106,7 @@
 			});
 		},
         initializeElements: function () {
-            var eles = resourceManage.Eles;
+            var eles = metaDataManage.Eles;
             for (var name in eles) {
                 if (eles.hasOwnProperty(name)) {
                     this[name] = $(eles[name]);
@@ -218,6 +229,14 @@
             utils.setValueGlobal(utils.getDom(e).parents("#cloneRow")[0].jsonData,this.metaDataCreate[0])
 
         },
+        clickCreateOrEditExp: function(e){
+
+        },
+        clickCheckExp: function(e){
+            this.metaDataChildTable.attr("reqParam",JSON.stringify({"tableId":utils.getDom(e).parents("#cloneRow")[0].jsonData.id}))
+            document.body.jsCtrl.ctrl = this.metaDataChildTable[0];
+            document.body.jsCtrl.init();
+        },
         _scanEventsMap: function(maps, isOn){
         	//扫描事件
             var delegateEventSplitter = /^(\S+)\s*(.*)$/;
@@ -259,10 +278,10 @@
 
 	}
 
-	global.resourceManage = resourceManage;/// 将构造函数挂在window上，那么在外部也能访问闭包内的属性，相当于对外暴露了一个接口
+	global.metaDataManage = metaDataManage;/// 将构造函数挂在window上，那么在外部也能访问闭包内的属性，相当于对外暴露了一个接口
 
     $(function(){
-        var obj = new resourceManage(); 
+        var obj = new metaDataManage(); 
         //将实例挂在window上
         //global.obj = obj;
     });

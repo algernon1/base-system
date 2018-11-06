@@ -39,15 +39,16 @@ treeCheck.prototype.unionChecked = function(dom){
 }
 treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom树
     //数据， 父级dom,  是否是选中,  是否有checkbox框
-    var data = options.data;
-    var parentDom = options.parentDom;
-    var isNeedCheck = options.isNeedCheck;
-    var parentId = options.parentId;
-    var showName = options.showName;
-    var clickFunc = options.clickFunc;
-    var id = options.id;
-    var className = options.className;
+    var data = options.data;//数据
+    var parentDom = options.parentDom;//父级dom
+    var isNeedCheck = options.isNeedCheck;//是否有checkbox框
+    var parentId = options.parentId;//父级id
+    var showName = options.showName;//显示的文本字段名
+    //var clickFunc = options.clickFunc;//点击树的某一行执行的函数
+    var id = options.id;//当前选中的行数据主键值
+    var className = options.className;//选中状态的class名称
     //var globalFunctionId = options.globalFunctionId;
+    //options.notAllInputId //该tree部分有checkbox，  //
     if(data){
         var oUl = document.createElement("ul");
         if( parentDom.attr("id") && parentDom.attr("id") == parentId ){
@@ -72,7 +73,16 @@ treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom�
             //oLi.innerHTML = "<div class='hitarea expandable-hitarea'></div>";
             
             if(isNeedCheck){
-                oLi.innerHTML += "<input type='checkbox' "+chk+ " " + disabled +">";
+                if(options.notAllInputId){//部分有checkbox
+                    console.log(data[i][options.notAllInputId])
+                    if(data[i][options.notAllInputId] == 0){//需要input
+                        oLi.innerHTML += "<input type='checkbox' "+chk+ " " + disabled +">";
+                    }else{//不需要input
+
+                    }
+                }else{
+                    oLi.innerHTML += "<input type='checkbox' "+chk+ " " + disabled +">";
+                }
             }
             var str = "";
             if(showName){
@@ -90,6 +100,7 @@ treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom�
                 }
             }
             oLi.data = data[i];
+            if(data[i].id)oLi.setAttribute("_id",data[i].id);
             //oLi.options = options;
             if(data[i].lev == 1){
                 $("#" +id+ "#navigation").append(oLi);
@@ -97,11 +108,9 @@ treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom�
                 $(oUl).append(oLi)
             }
 
-            //var dom = $(oUl).find("li").eq($(oUl).find("li").length-1).find("a");
-            // dom.on("click",function(){
-            //     eval($(this).parent()[0].options.clickFunc)
-            // })
-
+            var dom = $(oUl).find("li").eq($(oUl).find("li").length-1).find("a");
+            //dom.on("click",options.clickFunc ? options.clickFunc : function(){})
+            $(oUl).on("click",dom,options.clickFunc ? options.clickFunc : function(){})
             // if(globalFunctionId == ""){
             //     $("#root").click()
             // }else if(globalFunctionId == data[i].functionId){
@@ -113,6 +122,7 @@ treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom�
                     "data":data[i].children, 
                     "parentDom":$(oLi), 
                     "isNeedCheck":isNeedCheck, 
+                    "notAllInputId":options.notAllInputId,
                     "parentId":$(oLi).attr("id"),
                     "showName":showName,
                     "id":id,
@@ -121,6 +131,8 @@ treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom�
 
             }
         }
+
+        $("#"+parentId).treeview();
     }
 }
 treeCheck.prototype.treeBindClick = function(options){
