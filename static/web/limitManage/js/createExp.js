@@ -17,6 +17,8 @@
             "click .deleteAccount":"clickDeleteAccount",
             "click .deleteRole":"clickDeleteRole",
             "click #addOrgCondi":"clickAddOrgCondi",
+            "click #addAccountCondi":"clickAddAccountCondi",
+            "click #addRoleCondi":"clickAddRoleCondi",
             "click #addcondi-btn":"clickAddcondiBtn",
             "click #save":"clickSave",
             "click #cancel":"clickCancel"
@@ -26,13 +28,18 @@
     }
 
     createExp.Eles = {// 定义构造函数静态属性，挂载所有选择器的属性0
+        "tabMenu":"#tab-menu",
         "orgList":"#orgList",
         "accountList":"#accountList",
         "roleList":"#roleList",
         "fieldList":"#field-list",
         "fieldListTable":"#field-list-table",
         "addcondiBtn":"#addcondi-btn",//添加条件
-        "conditionCloneRow":"#condition-cloneRow",
+
+        "orgCondiCloneRow":"#org-condition-ui #condition-cloneRow",
+        "accountCondiCloneRow":"#account-condition-ui #condition-cloneRow",
+        "roleCondiCloneRow":"#role-condition-ui #condition-cloneRow",
+
         "orgConditionUi":"#org-condition-ui",
         "accountConditionUi":"#account-condition-ui",
         "roleConditionUi":"#role-condition-ui",
@@ -93,7 +100,15 @@
                     if(bol || arr.length >1 ){
                         arr.splice(i,1);
                         if(bol){
-                            $(createExp.Eles.orgConditionUi).find("#cloneRow").remove();
+                            var nidx = $(createExp.Eles.tabMenu).find(".tabTitLi").attr("nidx");
+                            if( nidx == 0){//组织
+                                $(createExp.Eles.orgConditionUi).find("#cloneRow").remove();
+                            }else if(nidx == 1){//用户
+                                $(createExp.Eles.accountConditionUi).find("#cloneRow").remove();
+                            }else{//角色
+                                $(createExp.Eles.roleConditionUi).find("#cloneRow").remove();
+                            }
+
                         }
                     }
                     break;
@@ -171,10 +186,6 @@
             var arrReqName = options.arrReqName;
             var arrIds = options.arrIds;
 
-            // var reqParam = utils.getReqparam({
-            //     "arrReqName":["orgIds","acctIds","roleIds","orgConfig","acctConfig","roleConfig"],
-            //     "arrIds":["orgList","accountList","roleList","orgConfig","acctConfig","roleConfig"]
-            // })
             //得到组织的保存数据
             for(var n=0;n<3;n++){
                 var aSelectDom = $("#"+[arrIds[n]]).find("#cloneRow");
@@ -201,6 +212,39 @@
             for(var i=0;i<arr.length;i++){
                 if(str == arr[i])return i+1;
             };
+        },
+        comDelete:function(dom,e){
+
+            var id = utils.getDom(e).parents("li")[0].jsonData.id;
+            var arr = dom[0].data.rspBody.resultData;
+            var num=arr.length,num1=0;
+            dom[0].data.rspBody.resultData = utils.removeExistData(id,arr)
+            num1=dom[0].data.rspBody.resultData.length;
+            dom.attr({"comType":"standardTableCtrl"});
+            document.body.jsCtrl.ctrl = dom[0];
+            document.body.jsCtrl.init();
+            if(num != num1){
+                $("li[_id="+utils.getDom(e).parents("li")[0].jsonData.id+"]").find("input").eq(0).prop("checked",false)
+            };
+        },
+        comAddCondi:function(dom,type){
+
+            if(dom.find("#cloneRow").length==0){
+                
+                if(type == 1){//组织
+                    alert("请先添加组织！");
+                }else if(type ==2){//用户
+                    alert("请先添加用户！");
+                }else{//角色
+                    alert("请先添加角色！");
+                }
+                return;
+            }
+            openWin(500, 300, "field-list", true);
+            var reqParam = {"tableId":GetQueryString("tableId")}
+            $(createExp.Eles.fieldListTable).attr({"reqParam":JSON.stringify(reqParam),"comtype":"standardTableCtrl"});
+            document.body.jsCtrl.ctrl = $(createExp.Eles.fieldListTable)[0];
+            document.body.jsCtrl.init();
         }
 
     };
@@ -359,42 +403,26 @@
 
         },
         clickDeleteOrg:function(e){//右侧删除组织
-            var id = utils.getDom(e).parents("li")[0].jsonData.id;
-            var arr = this.orgList[0].data.rspBody.resultData;
-            this.orgList[0].data.rspBody.resultData = utils.removeExistData(id,arr)
-            this.orgList.attr({"comType":"standardTableCtrl"});
-            document.body.jsCtrl.ctrl = this.orgList[0];
-            document.body.jsCtrl.init();
-            $("li[_id="+utils.getDom(e).parents("li")[0].jsonData.id+"]").find("input").eq(0).prop("checked",false)
+
+            utils.comDelete(this.orgList,e)
         },
         clickDeleteAccount:function(e){//右侧删除用户
-            var id = utils.getDom(e).parents("li")[0].jsonData.id;
-            var arr = this.accountList[0].data.rspBody.resultData;
-            this.accountList[0].data.rspBody.resultData = utils.removeExistData(id,arr)
-            this.accountList.attr({"comType":"standardTableCtrl"})
-            document.body.jsCtrl.ctrl = this.accountList[0];
-            document.body.jsCtrl.init();
-            $("li[_id="+utils.getDom(e).parents("li")[0].jsonData.id+"]").find("input").eq(0).prop("checked",false)
+
+            utils.comDelete(this.accountList,e)
         },
         clickDeleteRole:function(e){//右侧删除用户
-            var id = utils.getDom(e).parents("li")[0].jsonData.id;
-            var arr = this.roleList[0].data.rspBody.resultData;
-            this.roleList[0].data.rspBody.resultData = utils.removeExistData(id,arr)
-            this.roleList.attr({"comType":"standardTableCtrl"})
-            document.body.jsCtrl.ctrl = this.roletList[0];
-            document.body.jsCtrl.init();
-            $("li[_id="+utils.getDom(e).parents("li")[0].jsonData.id+"]").find("input").eq(0).prop("checked",false)
+
+            utils.comDelete(this.roleList,e)
         },
         clickAddOrgCondi:function(e){
-            if(this.orgList.find("#cloneRow").length==0){
-                alert("请先添加组织！");
-                return;
-            }
-            openWin(500, 300, "field-list", true);
-            var reqParam = {"tableId":GetQueryString("tableId")}
-            this.fieldListTable.attr({"reqParam":JSON.stringify(reqParam),"comtype":"standardTableCtrl"});
-            document.body.jsCtrl.ctrl = this.fieldListTable[0];
-            document.body.jsCtrl.init();
+            utils.comAddCondi(this.orgList)
+        },
+        clickAddAccountCondi:function(e){
+
+            utils.comAddCondi(this.accountList)
+        },
+        clickAddRoleCondi:function(e){
+            utils.comAddCondi(this.roleList)
         },
         clickAddcondiBtn:function(e){
             var data = utils.getDom(e).parents("tr")[0].jsonData;
@@ -410,14 +438,30 @@
                 {"condition":["=",  "!="]},
             ];
 
-            var cloneRow = this.conditionCloneRow.clone();
+
+            if($(".tabMenu-two .tabTitLi").attr("nidx") == 0 ){
+                var cloneRow = this.orgCondiCloneRow.clone();
+            }else if($(".tabMenu-two .tabTitLi").attr("nidx") == 1 ){
+                var cloneRow = this.accountCondiCloneRow.clone();
+            }else if($(".tabMenu-two .tabTitLi").attr("nidx") == 2 ){
+                var cloneRow = this.roleCondiCloneRow.clone();
+            };
+
             cloneRow[0].id = "cloneRow";
             cloneRow[0].style.display = "";
             cloneRow[0].jsonData = data;
 
             utils.setSelect(cloneRow,condiArr,data.fieldType);
 
-            cloneRow.insertBefore(this.conditionCloneRow);
+                  
+            if($(".tabMenu-two .tabTitLi").attr("nidx") == 0 ){
+                cloneRow.insertBefore(this.orgCondiCloneRow);
+            }else if($(".tabMenu-two .tabTitLi").attr("nidx") == 1 ){
+                cloneRow.insertBefore(this.accountCondiCloneRow);
+            }else if($(".tabMenu-two .tabTitLi").attr("nidx") == 2 ){
+                cloneRow.insertBefore(this.roleCondiCloneRow);
+            };
+
             cloneRow.find("#fieldName").text(data.fieldName);
             cloneRow.find("select").chosen({
                 //disable_search_threshold: 5,
@@ -452,7 +496,6 @@
                     callbackMethod:function(data){
                         data = JSON.parse(data);
                         if(data.retCode == "0000000"){
-                            console.log(data);
                             alert("保存成功！")
                         };
                     }
@@ -462,7 +505,7 @@
 
         },
         clickCancel:function(e){
-
+            closePopupWin();
         },
 
 
