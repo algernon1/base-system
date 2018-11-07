@@ -1,5 +1,9 @@
+function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem) {
 
-	
+    jsonCItem
+
+}
+
 
 
 
@@ -21,7 +25,7 @@
             "click #addRoleCondi":"clickAddRoleCondi",
             "click #addcondi-btn":"clickAddcondiBtn",
             "click #save":"clickSave",
-            "click #cancel":"clickCancel"
+            //"click #cancel":"clickCancel"
 
         };
         this.initialization();
@@ -29,6 +33,12 @@
 
     createExp.Eles = {// 定义构造函数静态属性，挂载所有选择器的属性0
         "tabMenu":"#tab-menu",
+
+        "orgListBox":"#orgListBox",
+        "accountListBox":"#accountListBox",
+        "roleListBox":"#roleListBox",
+
+
         "orgList":"#orgList",
         "accountList":"#accountList",
         "roleList":"#roleList",
@@ -44,8 +54,11 @@
         "accountConditionUi":"#account-condition-ui",
         "roleConditionUi":"#role-condition-ui",
         "save":"#save",
-        "cancel":"#cancel",
-        "createExp":"#createExp"
+        //"cancel":"#cancel",
+        "createExp":"#createExp",
+        "tabContentOne":"#tabContentOne",
+        "tabContentTwo":"#tabContentTwo",
+        "tabContentThree":"#tabContentThree",
 
 
     }
@@ -191,7 +204,7 @@
                 var aSelectDom = $("#"+[arrIds[n]]).find("#cloneRow");
                 for(var i=0;i<aSelectDom.length;i++){
                     reqParam[arrReqName[n]].push(aSelectDom.eq(i)[0].jsonData.id);
-                }
+                };
             };
 
             for(var n=3;n<6;n++){
@@ -202,8 +215,9 @@
                     condiInfo.fieldId = aCondis.eq(i)[0].jsonData.fieldId;
                     condiInfo.fieldValue = aCondis.eq(i).find(".createExp-addcondi__input").val();
                     condiInfo.tableName = aCondis.eq(i)[0].jsonData.tableName;
+                    condiInfo.expression = aCondis.eq(i).find("#fieldName").text()+aCondis.eq(i).find("option:selected").text()+condiInfo.fieldValue;
                     reqParam[arrReqName[n]].push(condiInfo);
-                }
+                };
             };
             return reqParam;
         },
@@ -245,6 +259,29 @@
             $(createExp.Eles.fieldListTable).attr({"reqParam":JSON.stringify(reqParam),"comtype":"standardTableCtrl"});
             document.body.jsCtrl.ctrl = $(createExp.Eles.fieldListTable)[0];
             document.body.jsCtrl.init();
+        },
+        dataEcho:function(arr){
+            for(var i=0;i<arr.length;i++){
+
+                var comHasChooseData = {
+                    "rspBody":{
+                        "resultData":arr[i].data
+                    }
+                };
+                for(var j=0;j<arr[i].data.length;j++){
+                    if(i==0){
+                        $(createExp.Eles.orgListBox).find("li[_id="+arr[i].data[j].orgId+"] input").eq(0).prop("checked",true)
+                    }else if(i==1){
+                        $(createExp.Eles.accountListBox).find("li[_id="+arr[i].data[j].acctId+"] input").eq(0).prop("checked",true)
+                    }else{
+                        $(createExp.Eles.roleListBox).find("li[_id="+arr[i].data[j].roleId+"] input").eq(0).prop("checked",true)
+                    }
+                };
+                arr[i].ctrl[0].data = comHasChooseData;
+                arr[i].ctrl.attr({"comType":"standardTableCtrl"})
+                document.body.jsCtrl.ctrl = arr[i].ctrl[0];
+                document.body.jsCtrl.init();
+            }
         }
 
     };
@@ -268,7 +305,7 @@
                 "method":"post",
                 "param":{"powerExpressionId":peId},
                 "asyncType":false,
-                "obj":{
+                "ctrl":{
                     "orgList":this.orgList
                 },
                 callbackMethod:function(data){
@@ -279,7 +316,7 @@
                             "data":data.rspBody.children,
                             "parentDom":$("#orgListBox"),
                             "isNeedCheck":true,
-                            "showName":"orgName",
+                            "showName":["orgName"],
                             "parentId":"orgListBox",
                             clickFunc:function(e) {
 
@@ -297,7 +334,7 @@
                 "method":"post",
                 "param":{"powerExpressionId":peId},
                 "asyncType":false,
-                "obj":{
+                "ctrl":{
                     "accountList":this.accountList
                 },
                 callbackMethod:function(data){
@@ -308,7 +345,7 @@
                             "data":data.rspBody.children,
                             "parentDom":$("#accountListBox"),
                             "isNeedCheck":true,
-                            "showName":"orgName",
+                            "showName":["orgName","acctTitle"],
                             "parentId":"accountListBox",
                             "notAllInputId":"type",
                             clickFunc:function(e) {
@@ -327,7 +364,7 @@
                 "method":"post",
                 "param":{"powerExpressionId":peId},
                 "asyncType":false,
-                "obj":{
+                "ctrl":{
                     "roleList":this.roleList
                 },
                 callbackMethod:function(data){
@@ -338,7 +375,7 @@
                             "data":data.rspBody.children,
                             "parentDom":$("#roleListBox"),
                             "isNeedCheck":true,
-                            "showName":"orgName",
+                            "showName":["orgName","roleTitle"],
                             "parentId":"roleListBox",
                             "notAllInputId":"type",
                             clickFunc:function(e) {
@@ -357,7 +394,7 @@
                 "method":"post",
                 "param":{"powerExpressionId":peId},
                 "asyncType":false,
-                "obj":{
+                "ctrl":{
                     "orgList":this.orgList,
                     "accountList":this.accountList,
                     "roleList":this.roleList
@@ -365,38 +402,54 @@
                 callbackMethod:function(data){
                     data = JSON.parse(data);
 
-                    //已选组织初始化
-                    var orgHasChooseData = {
-                        "rspBody":{
-                            "resultData":data.orgPrivRelations||[] 
-                        }
-                    }
-                    this.obj.orgList[0].data = orgHasChooseData;
-                    this.obj.orgList.attr({"comType":"standardTableCtrl"})
-                    document.body.jsCtrl.ctrl = this.obj.orgList[0];
-                    document.body.jsCtrl.init();
 
-                    //已选用户初始化
-                    var accountHasChooseData = {
-                        "rspBody":{
-                            "resultData":data.accountPrivRelations||[] 
-                        }
+                    //数据回显
+                    if(data.rspBody){
+                        utils.dataEcho([
+                            {"data":data.rspBody.orgPrivRelations,"ctrl":this.ctrl.orgList},
+                            {"data":data.rspBody.accountPrivRelations,"ctrl":this.ctrl.accountList},
+                            {"data":data.rspBody.rolePrivRelations,"ctrl":this.ctrl.roleList}
+                        ]);
+                    }else{
+                        utils.dataEcho([
+                            {"data":[],"ctrl":this.ctrl.orgList},
+                            {"data":[],"ctrl":this.ctrl.accountList},
+                            {"data":[],"ctrl":this.ctrl.roleList}
+                        ]);
                     }
-                    this.obj.accountList[0].data = accountHasChooseData;
-                    this.obj.accountList.attr({"comType":"standardTableCtrl"})
-                    document.body.jsCtrl.ctrl = this.obj.accountList[0];
-                    document.body.jsCtrl.init();
 
-                    //已选角色初始化
-                    var roleHasChooseData = {
-                        "rspBody":{
-                            "resultData":data.rolePrivRelations||[] 
-                        }
-                    }
-                    this.obj.roleList[0].data = roleHasChooseData;
-                    this.obj.roleList.attr({"comType":"standardTableCtrl"})
-                    document.body.jsCtrl.ctrl = this.obj.roleList[0];
-                    document.body.jsCtrl.init();
+                    // //已选组织初始化
+                    // var orgHasChooseData = {
+                    //     "rspBody":{
+                    //         "resultData":data.rspBody.orgPrivRelations||[] 
+                    //     }
+                    // }
+                    // this.ctrl.orgList[0].data = orgHasChooseData;
+                    // this.ctrl.orgList.attr({"comType":"standardTableCtrl"})
+                    // document.body.jsCtrl.ctrl = this.ctrl.orgList[0];
+                    // document.body.jsCtrl.init();
+
+                    // //已选用户初始化
+                    // var accountHasChooseData = {
+                    //     "rspBody":{
+                    //         "resultData":data.rspBody.accountPrivRelations||[] 
+                    //     }
+                    // }
+                    // this.ctrl.accountList[0].data = accountHasChooseData;
+                    // this.ctrl.accountList.attr({"comType":"standardTableCtrl"})
+                    // document.body.jsCtrl.ctrl = this.ctrl.accountList[0];
+                    // document.body.jsCtrl.init();
+
+                    // //已选角色初始化
+                    // var roleHasChooseData = {
+                    //     "rspBody":{
+                    //         "resultData":data.rspBody.rolePrivRelations||[] 
+                    //     }
+                    // }
+                    // this.ctrl.roleList[0].data = roleHasChooseData;
+                    // this.ctrl.roleList.attr({"comType":"standardTableCtrl"})
+                    // document.body.jsCtrl.ctrl = this.ctrl.roleList[0];
+                    // document.body.jsCtrl.init();
 
                 }
             });
@@ -415,14 +468,14 @@
             utils.comDelete(this.roleList,e)
         },
         clickAddOrgCondi:function(e){
-            utils.comAddCondi(this.orgList)
+            utils.comAddCondi(this.orgList,1)
         },
         clickAddAccountCondi:function(e){
 
-            utils.comAddCondi(this.accountList)
+            utils.comAddCondi(this.accountList,2)
         },
         clickAddRoleCondi:function(e){
-            utils.comAddCondi(this.roleList)
+            utils.comAddCondi(this.roleList,3)
         },
         clickAddcondiBtn:function(e){
             var data = utils.getDom(e).parents("tr")[0].jsonData;
@@ -476,37 +529,53 @@
         },
         clickSave:function(e){
             var reqParam = utils.getReqparam({
-                "arrReqName":["orgIds","acctIds","roleIds","orgConfig","acctConfig","roleConfig"],
-                "arrIds":["orgList","accountList","roleList","org-condition-ui","account-condition-ui","role-condition-ui"]
+                "arrReqName":["orgIds","acctIds","roleIds","orgConfig","acctConfig","roleConfig"],//入参名称
+                "arrIds":["orgList","accountList","roleList","org-condition-ui","account-condition-ui","role-condition-ui"]//对应dom id名称
             });
-            initValidate(this.createExp[0]);
-            var obj = new clsValidateCtrl();  
-            if(obj.validateAll())
-            {
 
-                //保存权限
-                getAjaxResultNew({
-                    "strPath":"/powerExpression/save",
-                    "method":"post",
-                    "param":reqParam,
-                    "asyncType":false,
-                    "obj":{
-                        "orgList":this.orgList
-                    },
-                    callbackMethod:function(data){
-                        data = JSON.parse(data);
-                        if(data.retCode == "0000000"){
-                            alert("保存成功！")
-                        };
-                    }
-                });
+            var obj = new clsValidateCtrl();  
+            this.tabMenu.find("li[nidx=0]").click();
+            initValidate(this.orgConditionUi[0]);
+            if(!obj.validateAll4Ctrl(this.orgConditionUi[0])){
+                return;
             }
 
+            initValidate(this.accountConditionUi[0]);
+            this.tabMenu.find("li[nidx=1]").click();
+            initValidate(this.accountConditionUi[0]);
+            if(!obj.validateAll4Ctrl(this.accountConditionUi[0])){
+                return;
+            }
+
+            initValidate(this.roleConditionUi[0]);
+            this.tabMenu.find("li[nidx=2]").click();
+            initValidate(this.roleConditionUi[0]);
+            if(!obj.validateAll4Ctrl(this.roleConditionUi[0])){
+                return;
+            }
+            
+            //保存权限
+            getAjaxResultNew({
+                "strPath":"/powerExpression/save",
+                "method":"post",
+                "param":reqParam,
+                "asyncType":false,
+                "ctrl":{
+                    "orgList":this.orgList
+                },
+                callbackMethod:function(data){
+                    data = JSON.parse(data);
+                    if(data.retCode == "0000000"){
+                        alert("保存成功！")
+                    };
+                }
+            });
+
 
         },
-        clickCancel:function(e){
-            closePopupWin();
-        },
+        // clickCancel:function(e){
+        //     closePopupWin();
+        // },
 
 
 

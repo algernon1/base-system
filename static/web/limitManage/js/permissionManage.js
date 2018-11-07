@@ -85,20 +85,43 @@ treeCheck.prototype.loopLoad = function(options){//递归,无限遍历下级dom�
                 }
             }
             var str = "";
-            if(showName){
+            // if(showName){
+            //     str += "<a href='javascript:;' class='cloneTreeA ";  
+            //     if(id == data[i].id && className != undefined && id != undefined){
+            //         str += className
+            //     }
+            //     str += "'>";
+            //     str += data[i][showName];
+            //     str += +"</a>";
+            //     oLi.innerHTML += str;
+            // }else{
+            //     if(data[i]["roleTitle"]){
+            //         oLi.innerHTML += "<a href='javascript:;' class='cloneTreeA'>"+data[i][["roleTitle"]]+"</a>";
+            //     }else{
+            //         oLi.innerHTML += "<a href='javascript:;' class='cloneTreeA'>"+data[i][["roleGroupTitle"]]+"</a>";
+            //     }
+            // }
+
+            if(showName instanceof Array){
+
                 str += "<a href='javascript:;' class='cloneTreeA ";  
                 if(id == data[i].id && className != undefined && id != undefined){
                     str += className
                 }
-               str += "'>"+data[i][showName]+"</a>";
-               oLi.innerHTML += str;
-            }else{
-                if(data[i]["roleTitle"]){
-                    oLi.innerHTML += "<a href='javascript:;' class='cloneTreeA'>"+data[i][["roleTitle"]]+"</a>";
-                }else{
-                    oLi.innerHTML += "<a href='javascript:;' class='cloneTreeA'>"+data[i][["roleGroupTitle"]]+"</a>";
-                }
+                str += "'>";
+                for(var n=0;n<showName.length;n++){
+                    if(data[i][showName[n]]){
+                        str += data[i][showName[n]];
+                    }
+                };
+                str += "</a>";
+                oLi.innerHTML += str;
             }
+
+
+
+
+
             oLi.data = data[i];
             if(data[i].id)oLi.setAttribute("_id",data[i].id);
             //oLi.options = options;

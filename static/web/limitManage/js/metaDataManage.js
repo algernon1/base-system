@@ -1,10 +1,19 @@
-function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
-    $(cloneRow).find("#createOrEditExp").click(function(){
-        window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + cloneRow.jsonData.id
-    })
+function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem) {
+    
 }
-
-
+function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
+    switch(jsonCItem.type){
+        case 1:
+            jsonCItem.typeStr = "按组织";
+            break;
+        case 2:
+            jsonCItem.typeStr = "按用户";
+            break;
+        case 3:
+            jsonCItem.typeStr = "按角色";
+            break;
+    }
+}
 
 
 (function($, global, doc){
@@ -24,8 +33,10 @@ function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
             "click #createTableCancel":"clickCreateTableCancel",
             "click #deleteTable":"clickDeleteTable",
             "click #editTable":"clickEditTable",
-            "click #createOrEditExp":"clickCreateOrEditExp",
+            "click #tableList #createOrEditExp":"clickCreateOrEditExp",
             "click #checkExp":"clickCheckExp",
+            "click #metaData-child-table #deletePermission":"clickDeletePermission",//删除权限
+            "click #metaData-child-table #checkPermission":"clickCheckPermissionn"//查看权限
 
 		};
 		this.initialization();
@@ -169,13 +180,13 @@ function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
                         "strPath":"/theMetadata/save", 
                         "method":"post", 
                         "param":reqParam,
-                        "obj":this.tableList,
+                        "ctrl":this.tableList,
                         callbackMethod:function(data){
-                            console.log(this.obj)
+                            console.log(this.ctrl)
                             data = JSON.parse(data);
                             if(data.retCode == "0000000"){
                                 closePopupWin();
-                                document.body.jsCtrl.ctrl = this.obj[0];
+                                document.body.jsCtrl.ctrl = this.ctrl[0];
                                 document.body.jsCtrl.init();
                             }
                         }
@@ -187,12 +198,12 @@ function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
                         "strPath":"/theMetadata/update", 
                         "method":"post", 
                         "param":reqParam,
-                        "obj":this.tableList,
+                        "ctrl":this.tableList,
                         callbackMethod:function(data){
                             data = JSON.parse(data);
                             if(data.retCode == "0000000"){
                                 closePopupWin();
-                                document.body.jsCtrl.ctrl = this.obj[0];
+                                document.body.jsCtrl.ctrl = this.ctrl[0];
                                 document.body.jsCtrl.init();
                             }
                         }
@@ -212,11 +223,11 @@ function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
                 "strPath":"/theMetadata/delete", 
                 "method":"post", 
                 "param":reqParam, 
-                "obj":this.tableList,
+                "ctrl":this.tableList,
                 callbackMethod: function(data){
     	        	data = JSON.parse(data);
             		if(data.retCode == "0000000"){
-    		            document.body.jsCtrl.ctrl = this.obj[0];
+    		            document.body.jsCtrl.ctrl = this.ctrl[0];
     		            document.body.jsCtrl.init();
             		}
             	}
@@ -230,12 +241,33 @@ function clsStandardTableCtrl$progress(jsonItem, cloneRow) {
 
         },
         clickCreateOrEditExp: function(e){
-
+            var data = utils.getDom(e).parents("tr")[0].jsonData
+            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.id
         },
         clickCheckExp: function(e){
             this.metaDataChildTable.attr("reqParam",JSON.stringify({"tableId":utils.getDom(e).parents("#cloneRow")[0].jsonData.id}))
             document.body.jsCtrl.ctrl = this.metaDataChildTable[0];
             document.body.jsCtrl.init();
+        },
+        clickDeletePermission:function(e){//删除权限
+            var data = utils.getDom(e).parents("tr")[0].jsonData;
+            getAjaxResultNew({
+                "strPath":"/powerExpression/delete", 
+                "method":"post", 
+                "param":{"powerExpressionId":data.powerExpressionId}, 
+                "ctrl":this.metaDataChildTable,
+                callbackMethod: function(data){
+                    data = JSON.parse(data);
+                    if(data.retCode == "0000000"){
+                        document.body.jsCtrl.ctrl = this.ctrl[0];
+                        document.body.jsCtrl.init();
+                    }
+                }
+            });
+        },
+        clickCheckPermissionn:function(e){//查看权限
+            var data = utils.getDom(e).parents("tr")[0].jsonData;
+            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + cloneRow.jsonData.id + "&powerExpressionId=" + data.powerExpressionId
         },
         _scanEventsMap: function(maps, isOn){
         	//扫描事件

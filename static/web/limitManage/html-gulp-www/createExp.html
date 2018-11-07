@@ -271,8 +271,9 @@
         <li nidx="1"><span>按用户</span></li>
         <li nidx="2"><span>按角色</span></li>
     </ul>
-    <div class="tabContent clearfix">
+    <div class="tabContent clearfix" id="tabContentOne">
         <div class="createExp-choose clearfix">
+            <h3 class="createExp-choose__title">选择组织</h3>
         	<div class="createExp-choose-left" id="orgListBox" style="6">
 				
 	        </div>
@@ -287,7 +288,7 @@
 	        </ul>
         </div>
         <div class="createExp-addcondi">
-            <h3>自定义限定条件</h3>
+            <h3 class="createExp-addcondi__title">自定义限定条件</h3>
             <a href="javascript:;" class="createExp-addcondi__a" id="addOrgCondi">添加条件</a>
             <ul class="createExp-addcondi__ul" id="org-condition-ui">
                 <li class="createExp-addcondi__li" id="condition-cloneRow" style="display:none">
@@ -298,8 +299,9 @@
             </ul>
         </div>
     </div>
-    <div class="tabContent clearfix" style="display:none">
+    <div class="tabContent clearfix"  id="tabContentTwo" style="display:none">
         <div class="createExp-choose clearfix">
+            <h3 class="createExp-choose__title">选择用户</h3>
             <div class="createExp-choose-left" id="accountListBox" style="6">
                 
             </div>
@@ -308,7 +310,7 @@
             </div>
             <ul class="createExp-choose-right" id="accountList" comtype="" templateid="templateRow" page="tcdPageCode" idx="indexNum" reqpath=""  method="POST"  reqmethod="POST" reqparam='{"powerExpressionId":""}'>
                 <li id="templateRow" style="display:none">
-                    <span id="orgName"></span>
+                    <span id="acctTitle"></span>
                     <i class="deleteAccount"><img src="../images/delete.png" alt=""></i>
                 </li>
             </ul>
@@ -325,8 +327,9 @@
             </ul>
         </div>
     </div>
-    <div class="tabContent clearfix" style="display:none">
+    <div class="tabContent clearfix" id="tabContentThree" style="display:none">
         <div class="createExp-choose clearfix">
+            <h3 class="createExp-choose__title">选择角色</h3>
             <div class="createExp-choose-left" id="roleListBox" style="6">
                 
             </div>
@@ -335,7 +338,7 @@
             </div>
             <ul class="createExp-choose-right" id="roleList" comtype="" templateid="templateRow" page="tcdPageCode" idx="indexNum" reqpath=""  method="POST"  reqmethod="POST" reqparam='{"powerExpressionId":""}'>
                 <li id="templateRow" style="display:none">
-                    <span id="orgName"></span>
+                    <span id="roleTitle"></span>
                     <i class="deleteRole"><img src="../images/delete.png" alt=""></i>
                 </li>
             </ul>
@@ -353,8 +356,8 @@
         </div>
     </div>
     <div class="createExp-btn">
-        <a href="javascript:;" class="btnOne btnStyle1 mr10" id="save">确定</a>
-        <a href="javascript:;" class="btnSecond btnStyle1_1" id="cancel">取消</a>
+        <a href="javascript:;" class="btnOne btnStyle1 w200" id="save">确定</a>
+        <!-- <a href="javascript:;" class="btnSecond btnStyle1_1" id="cancel">取消</a> -->
     </div>
 </div>
 

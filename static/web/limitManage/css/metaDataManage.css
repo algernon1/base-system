@@ -27,11 +27,15 @@
 .chosen-container { float: left; margin-top: 0 !important; }
 
 /***********/
-.createExp-choose-left { float: left; width: 455px; height: 500px; overflow: auto; margin: 0 0 0 20px; border: 1px solid #dee3e; }
+.createExp-choose { padding: 20px; }
+
+.createExp-choose__title { font: bold 16px/30px 'Microsoft YaHei'; padding-bottom: 10px; }
+
+.createExp-choose-left { float: left; width: 455px; height: 500px; overflow: auto; margin: 0 0 0 20px; border: 1px solid #dee3e6; }
 
 .createExp-choose-center { width: 50px; height: 500px; float: left; line-height: 400px; text-align: center; }
 
-.createExp-choose-right { float: left; width: 400px; height: 500px; border: 1px solid #dee3e6; }
+.createExp-choose-right { float: left; width: 440px; height: 500px; border: 1px solid #dee3e6; }
 
 .createExp-choose-right li { line-height: 30px; padding: 0 10px; cursor: pointer; }
 
@@ -39,8 +43,16 @@
 
 .deleteOrg img, .deleteAccount img, .deleteRole img { width: 15px; height: 15px; }
 
+.createExp-addcondi { padding: 20px; }
+
+.createExp-addcondi__title { font: bold 16px/30px 'Microsoft YaHei'; }
+
+.createExp-addcondi__a { color: #6390f3; }
+
 .createExp-addcondi__li { padding: 10px 0; }
 
 .createExp-addcondi__span { line-height: 30px; text-align: right; width: 100px; padding: 0 10px; }
 
 .createExp-addcondi__input { border: 1px solid #eee; height: 30px; line-height: 30px; padding: 0 5px; width: 200px; }
+
+.createExp-btn { text-align: center; padding: 20px; }

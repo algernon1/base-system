@@ -137,7 +137,7 @@ function clsAlertBoxCtrl$sure() {
                     "parentDom":$("#"+id), 
                     "isNeedCheck":isNeedCheck, 
                     "parentId":id,
-                    "showName":"sysTitle"
+                    "showName":["sysTitle"]
                 });
 
                 a.unionChecked("input[type=checkbox]");

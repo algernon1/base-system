@@ -89,7 +89,7 @@ function roleSuccessFunc(data){
                     "data":data, 
                     "parentDom":$("#looptree2"),
                     "parentId":"looptree2",
-                    "showName":"orgName",
+                    "showName":["orgName"],
                     "id":orgId,
                     "className":"domTreeActive"
                 });
@@ -124,7 +124,14 @@ function roleSuccessFunc(data){
                     //$(".resource").hide();
                     //$(".resourceAd").show();
                     var a = new treeCheck();
-                    a.loopLoad({"data":data, "parentDom":$("#"+id), "isNeedCheck":isNeedCheck, "parentId":id});
+                    a.loopLoad({
+                        "data":data, 
+                        "parentDom":$("#"+id), 
+                        "isNeedCheck":isNeedCheck, 
+                        "parentId":id,
+                        "showName":["roleTitle","roleGroupTitle"]
+
+                    });
 
 
 
@@ -192,7 +199,7 @@ function roleSuccessFunc(data){
             }else{//角色权限
 
                     var aa = new treeCheck();
-                    aa.loopLoad({"data":data, "parentDom":$("#"+id), "isNeedCheck":isNeedCheck, "parentId":id,"showName":"functionTitle"});
+                    aa.loopLoad({"data":data, "parentDom":$("#"+id), "isNeedCheck":isNeedCheck, "parentId":id,"showName":["functionTitle"]});
                     aa.unionChecked("input[type=checkbox]");
                    
             }

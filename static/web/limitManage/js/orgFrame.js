@@ -183,7 +183,7 @@ function tissueAdmin(){
                             "data":data.rspBody,
                             "parentDom":$("#looptree1"),
                             "isNeedCheck":true,
-                            "showName":"sysTitle"
+                            "showName":["sysTitle"]
                         }
                     );
                     $("#looptree1").treeview();
@@ -232,7 +232,7 @@ function tissueAdmin(){
                         "data":jsData.rspBody.children,
                         "parentDom":$(".resourceAd-con-left"),
                         "isNeedCheck":false,
-                        "showName":"orgName"
+                        "showName":["orgName"]
                     }
                 );
                 $(".resourceAd-con-left ul").attr("id","navigation");

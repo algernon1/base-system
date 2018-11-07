@@ -204,7 +204,7 @@ function clsAlertBoxCtrl$sure() {
                     "parentDom":$("#"+id), 
                     "isNeedCheck":isNeedCheck, 
                     "parentId":id,
-                    "showName":"functionTitle"
+                    "showName":["functionTitle"]
                 });
 
                 a.unionChecked("input[type=checkbox]");
@@ -354,7 +354,7 @@ function clsAlertBoxCtrl$sure() {
                 "data":this.chooseZz[0].data, 
                 "parentDom":this.looptree2,
                 "parentId":"looptree2",
-                "showName":"sysTitle"
+                "showName":["sysTitle"]
             });
             this.looptree2.treeview();
             openWin(400, 380, "chooseZz", true);
