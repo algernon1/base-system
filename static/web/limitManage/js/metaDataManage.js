@@ -36,7 +36,13 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             "click #tableList #createOrEditExp":"clickCreateOrEditExp",
             "click #checkExp":"clickCheckExp",
             "click #metaData-child-table #deletePermission":"clickDeletePermission",//删除权限
-            "click #metaData-child-table #checkPermission":"clickCheckPermissionn"//查看权限
+            "click #metaData-child-table #checkPermission":"clickCheckPermissionn",//查看权限
+            "click #checkField":"clickCheckField",//查看表字段
+            "click #createField":"clickCreateField",//新增字段
+            "click #createFieldSure":"clickCreateFieldSure",//保存字段
+            "click #createFieldCancel":"clickCreateFieldCancel",//取消保存字段
+            "click #filedList #editField":"clickEditField",//编辑字段
+            "click #filedList #deleteField":"clickDeleteField"//删除字段
 
 		};
 		this.initialization();
@@ -52,7 +58,10 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
 		"searchBtn":"#searchBtn",
 		"metaDataCreate":"#metaData-create",
 		"deleteTable":"#deleteTable",
-        "metaDataChildTable":"#metaData-child-table"
+        "metaDataChildTable":"#metaData-child-table",
+        "filedList":"#filedList",
+        "metaDataCreateField":"#metaData-create-field",
+        "fieldType":"#fieldType"
 
 	}
 
@@ -267,8 +276,119 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
         },
         clickCheckPermissionn:function(e){//查看权限
             var data = utils.getDom(e).parents("tr")[0].jsonData;
-            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + cloneRow.jsonData.id + "&powerExpressionId=" + data.powerExpressionId
+            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.id + "&powerExpressionId=" + data.powerExpressionId
         },
+
+
+        clickCheckField:function(e){
+
+            var tableId = utils.getDom(e).parents("tr")[0].jsonData.id;
+            this.filedList.attr({
+                "comtype":"standardTableCtrl",
+                "reqParam":JSON.stringify({"tableId":tableId}),
+                "reqPath":"/metadataField/findpageresult"
+            })
+            document.body.jsCtrl.ctrl = this.filedList[0];
+            document.body.jsCtrl.init();
+        },
+        clickCreateField:function(e){
+            var tableId = utils.getDom(e).parents("tr")[0].jsonData.id;
+            this.filedList.attr({
+                "comtype":"standardTableCtrl",
+                "reqParam":JSON.stringify({"tableId":tableId}),
+                "reqPath":"/metadataField/findpageresult",
+                "_tableId":tableId
+            })
+
+            document.body.jsCtrl.ctrl = this.filedList[0];
+            document.body.jsCtrl.init();
+
+            openWin(500, 300, "metaData-create-field", true);
+
+            $(this.fieldType).chosen({
+                //disable_search_threshold: 5,
+                search_contains: true,
+                width: this.fieldType[0].style.width,
+                no_results_text: "没有匹配结果!",
+                enable_split_word_search: false,
+                placeholder_text_single: '请选择'
+            });
+
+
+        },
+        clickCreateFieldSure:function(e){
+            var status = null;
+            if(this.metaDataCreateField.find("#status").prop("checked")){
+                status = 1;
+            }else{
+                status = 0;
+            }
+            var reqParam = {
+                "fieldCode":this.metaDataCreateField.find("#fieldCode").val(),
+                "fieldDescribe":this.metaDataCreateField.find("#fieldDescribe").val(),
+                "fieldLength":this.metaDataCreateField.find("#fieldLength").val(),
+                "fieldName":this.metaDataCreateField.find("#fieldName").val(),
+                "fieldType":this.metaDataCreateField.find("#fieldType option:selected").val(),
+                "status":status,
+                "tableId":this.metaDataCreateField[0].jsonData.tableId,
+                "fieldId":this.metaDataCreateField[0].jsonData.fieldId
+            };
+
+
+            getAjaxResultNew({
+                "strPath":"/metadataField/update", 
+                "method":"post", 
+                "param":reqParam, 
+                "ctrl":this.filedList,
+                callbackMethod: function(data){
+                    data = JSON.parse(data);
+                    if(data.retCode == "0000000"){
+                        document.body.jsCtrl.ctrl = this.ctrl[0];
+                        document.body.jsCtrl.init();
+                        closePopupWin();
+
+                    }
+                }
+            });
+        },
+        clickCreateFieldCancel:function(e){
+            closePopupWin();
+        },
+        clickEditField:function(e){
+
+            openWin(500, 300, "metaData-create-field", true);
+            setValue4Desc(utils.getDom(e).parents("#cloneRow")[0].jsonData,this.metaDataCreateField[0]);
+            this.metaDataCreateField[0].jsonData = utils.getDom(e).parents("#cloneRow")[0].jsonData;
+            $(this.fieldType).chosen({
+                //disable_search_threshold: 5,
+                search_contains: true,
+                width: this.fieldType[0].style.width,
+                no_results_text: "没有匹配结果!",
+                enable_split_word_search: false,
+                placeholder_text_single: '请选择'
+            });
+
+        },
+        clickDeleteField:function(e){
+
+            getAjaxResultNew({
+                "strPath":"/metadataField/delete", 
+                "method":"post", 
+                "param":{"fieldId":utils.getDom(e).parents("tr")[0].jsonData.fieldId}, 
+                "ctrl":this.filedList,
+                callbackMethod: function(data){
+                    data = JSON.parse(data);
+                    if(data.retCode == "0000000"){
+                        alert("删除成功！")
+                        document.body.jsCtrl.ctrl = this.ctrl[0];
+                        document.body.jsCtrl.init();
+                        closePopupWin();
+                    }
+                }
+            });
+        },
+
+
         _scanEventsMap: function(maps, isOn){
         	//扫描事件
             var delegateEventSplitter = /^(\S+)\s*(.*)$/;

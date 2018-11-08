@@ -105,6 +105,16 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
         removeExistData: function(id,arr){
 
             for(var i=0;i<arr.length;i++){
+                // if(arr[i].orgId == id){
+                //     utils.removeDataDetail(id,arr,arr[i].orgId)
+                // }else if(arr[i].acctId == id){
+                //     utils.removeDataDetail(id,arr,arr[i].acctId )
+                // }else if(arr[i].roleId == id){
+                //     utils.removeDataDetail(id,arr,arr[i].roleId)
+                // }else{
+                //     utils.removeDataDetail(id,arr)
+                // }
+
                 if(arr[i].id == id){
                     var bol = false;
                     if(arr.length == 1){
@@ -162,12 +172,16 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                 document.body.jsCtrl.init();
             }
         },
-        setSelect:function(cloneRow,condiArr,n){
+        setSelect:function(cloneRow,condiArr,n,selectedNum){
 
             for(var i=0;i<condiArr[n-1].condition.length;i++){
-                cloneRow.find("select").append("<option>"+condiArr[n-1].condition[i]+"</option>")
+                if(utils.matchSymbol(selectedNum) == condiArr[n-1].condition[i]){
+                    cloneRow.find("select").append("<option selected>"+condiArr[n-1].condition[i]+"</option>")
+                }else{
+                    cloneRow.find("select").append("<option>"+condiArr[n-1].condition[i]+"</option>")
+                }
             };
-            cloneRow.find("input").addClass("required");//
+            cloneRow.find("input").addClass("required").val(cloneRow[0].jsonData.fieldValue);//
             switch(n){
                 case 4:
                     cloneRow.find("input").addClass("Wdate").attr("onfocus","WdatePicker({dateFmt:'yyyy-MM-dd'})");
@@ -227,6 +241,12 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                 if(str == arr[i])return i+1;
             };
         },
+        matchSymbol:function(num){
+            var arr = [">",  "<",  "=",   "<=",    ">=",  "!="  ];
+            for(var i=0;i<arr.length;i++){
+                if(num == i+1)return arr[i];
+            };
+        },
         comDelete:function(dom,e){
 
             var id = utils.getDom(e).parents("li")[0].jsonData.id;
@@ -281,7 +301,58 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                 arr[i].ctrl.attr({"comType":"standardTableCtrl"})
                 document.body.jsCtrl.ctrl = arr[i].ctrl[0];
                 document.body.jsCtrl.init();
-            }
+
+                if(arr[i].data1){
+                    for(var k=0;k<arr[i].data1.length;k++){
+                        var condiArr = [
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":[">",  "<",  "=",   "<=",    ">=",  "!="  ]},
+                            {"condition":["=",  "!="]},
+                            {"condition":["=",  "!="]},
+                        ];
+
+
+                        if($(".tabMenu-two .tabTitLi").attr("nidx") == 0 ){
+                            var cloneRow = $(createExp.Eles.orgCondiCloneRow).clone();
+                        }else if($(".tabMenu-two .tabTitLi").attr("nidx") == 1 ){
+                            var cloneRow = $(createExp.Eles.accountCondiCloneRow).clone();
+                        }else if($(".tabMenu-two .tabTitLi").attr("nidx") == 2 ){
+                            var cloneRow = $(createExp.Eles.roleCondiCloneRow).clone();
+                        };
+
+                        cloneRow[0].id = "cloneRow";
+                        cloneRow[0].style.display = "";
+                        cloneRow[0].jsonData = arr[i].data1[k];
+
+                        utils.setSelect(cloneRow,condiArr,arr[i].data1[k].fieldType,arr[i].data1[k].expressionType);
+
+                              
+                        if(arr[i].ctrl[0].id == "orgList" ){
+                            cloneRow.insertBefore($(createExp.Eles.orgCondiCloneRow));
+                        }else if(arr[i].ctrl[0].id == "accountList" ){
+                            cloneRow.insertBefore($(createExp.Eles.accountCondiCloneRow));
+                        }else if(arr[i].ctrl[0].id == "roleList" ){
+                            cloneRow.insertBefore($(createExp.Eles.roleCondiCloneRow));
+                        };
+
+                        cloneRow.find("#fieldName").text(arr[i].data1[k].fieldName);
+                        cloneRow.find("select").chosen({
+                            //disable_search_threshold: 5,
+                            search_contains: true,
+                            width: "100px",
+                            no_results_text: "没有匹配结果!",
+                            enable_split_word_search: false,
+                            placeholder_text_single: '请选择'
+                        });
+                    };
+                }
+            };
+
         }
 
     };
@@ -406,9 +477,9 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                     //数据回显
                     if(data.rspBody){
                         utils.dataEcho([
-                            {"data":data.rspBody.orgPrivRelations,"ctrl":this.ctrl.orgList},
-                            {"data":data.rspBody.accountPrivRelations,"ctrl":this.ctrl.accountList},
-                            {"data":data.rspBody.rolePrivRelations,"ctrl":this.ctrl.roleList}
+                            {"data":data.rspBody.orgPrivRelations,"data1":data.rspBody.orgConfig,"ctrl":this.ctrl.orgList},
+                            {"data":data.rspBody.accountPrivRelations,"data1":data.rspBody.acctConfig,"ctrl":this.ctrl.accountList},
+                            {"data":data.rspBody.rolePrivRelations,"data1":data.rspBody.roleConfig,"ctrl":this.ctrl.roleList}
                         ]);
                     }else{
                         utils.dataEcho([

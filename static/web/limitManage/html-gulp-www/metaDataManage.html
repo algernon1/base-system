@@ -261,6 +261,12 @@
 <script type="text/javascript" src="../../../plugin/page/script/jquery.page.js"></script>
 <script type="text/javascript" src="../../../plugin/tip/script/jquery.poshytip.js"></script>
 <script type="text/javascript" src="../js/metaDataManage.js"></script>
+
+<style>
+    .chosen-container {
+        margin-left:0;
+    }
+</style>
 <div class="metaData-content">
     </select>
     <div class="metaData-choose">
@@ -289,6 +295,7 @@
             <th>主键类型</th>
             <th>创建人</th>
             <th>操作表</th>
+            <th>操作字段</th>
             <th>操作表达式</th>
         </tr>
         <tr id="templateRow" style="display: none;">
@@ -305,7 +312,11 @@
                 <a href="javascript:;" id="deleteTable">删除</a>
             </td>
             <td>
-                <a href="javascript:;" id="createOrEditExp">新建</a>
+                <a href="javascript:;" id="createField">新增</a>
+                <a href="javascript:;" id="checkField">查看</a>
+            </td>
+            <td>
+                <a href="javascript:;" id="createOrEditExp">新增</a>
                 <a href="javascript:;" id="checkExp">查看</a>
             </td>
         </tr>
@@ -318,58 +329,95 @@
     <div class="tcdPageCode"></div>
 
 
-    <table  class="metaData-table" id="metaData-child-table" border="0" cellspacing="0" cellpadding="0" class="metaData-child-table" id="" templateParentId="templateParent" templateChildId="templateChild" templateGrandChildId="templateGrandChild" comType="thirdLevelTableCtrl" nStartStep="0" jsonSecondName="children" jsonThirdName="children" reqPath="/powerExpression/findpageresult" reqParam="{}" idx="idx" nodata="noDataCon1" >
-        <!--第一个表格-->
-        <thead>
-            <tr>
-                <th style="width: 5%" class="leftBorder">序号</th>
-                <th style="width: 15%" class="leftBorder">创建人</th>
-                <th style="width: 14%">维度</th>
-                <th style="width: 28%">名称</th>
-                <th style="width: 28%">表达式</th>
-                <th style="width: 10%">操作</th>            
-            </tr>
-        </thead>
-        <tbody class="">
-            <!--一行开始-->
-            <tr style="display:none" id="templateParent">
-                <td id="idx" style="width: 5%"></td>
-                <td id="createdBy" style="width: 15%"></td>
-                <td colspan="3" style="width: 70%">
-                    <table style="width: 100%;">
-                        <tr id="templateChild" style="display:none">
-                            <td id="typeStr" style="width: 20%">
+    <div class="metaData-table-box">
+        <table  class="metaData-table" id="metaData-child-table" border="0" cellspacing="0" cellpadding="0" class="metaData-child-table" id="" templateParentId="templateParent" templateChildId="templateChild" templateGrandChildId="templateGrandChild" comType="thirdLevelTableCtrl" nStartStep="0" jsonSecondName="children" jsonThirdName="children" reqPath="/powerExpression/findpageresult" reqParam="{}" idx="idx" nodata="noDataCon1" page="tcdPageCode1">
+            <!--第一个表格-->
+            <thead>
+                <tr>
+                    <th style="width: 5%" class="leftBorder">序号</th>
+                    <th style="width: 15%" class="leftBorder">创建人</th>
+                    <th style="width: 14%">维度</th>
+                    <th style="width: 28%">名称</th>
+                    <th style="width: 28%">表达式</th>
+                    <th style="width: 10%">操作</th>            
+                </tr>
+            </thead>
+            <tbody class="">
+                <!--一行开始-->
+                <tr style="display:none" id="templateParent">
+                    <td id="idx" style="width: 5%"></td>
+                    <td id="createdBy" style="width: 15%"></td>
+                    <td colspan="3" style="width: 70%">
+                        <table style="width: 100%;">
+                            <tr id="templateChild" style="display:none">
+                                <td id="typeStr" style="width: 20%">
 
-                            </td>
-                            <td id="roleName" style="width: 40%">
+                                </td>
+                                <td id="roleName" style="width: 40%">
 
-                            </td>
-                            <td style="width: 40%">
-                               <table style="width:100%">
-                                   <tr id="templateGrandChild" style="display:none">
-                                       <td id="roleExpression" style="width: 75%"></td>
-                                   </tr>
-                               </table>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <a href="javascript:;" id="deletePermission">删除</a>
-                    <a href="javascript:;" id="checkPermission">查看</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="noDataCon" id="noDataCon1">
-        <i></i>
-        <p>暂无数据......</p>
+                                </td>
+                                <td style="width: 40%">
+                                   <table style="width:100%">
+                                       <tr id="templateGrandChild" style="display:none">
+                                           <td id="roleExpression" style="width: 75%"></td>
+                                       </tr>
+                                   </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <a href="javascript:;" id="deletePermission">删除</a>
+                        <a href="javascript:;" id="checkPermission">查看</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="noDataCon" id="noDataCon1">
+            <i></i>
+            <p>暂无数据......</p>
+        </div>
+        <div class="tcdPageCode tcdPageCode1"></div>
     </div>
-    <div class="tcdPageCode tcdPageCode2"></div>
+    <div class="metaData-table-box">
+        <table id="filedList" _tableId="" class="metaData-table" comtype="" templateid="templateRow" page="tcdPageCode2" idx="indexNum" reqpath="" reqparam="{}" method="POST" nodata="noDataCon2" reqmethod="POST">
+            <tr>
+                <th>序号</th>
+                <th>字段名称</th>
+                <th>字段CODE</th>
+                <th>字段描述</th>
+                <th>字段长度</th>
+                <th>创建人</th>
+                <th>操作</th>
+            </tr>
+            <tr id="templateRow" style="display: none;">
+                <td id="indexNum"></td>
+                <td id="fieldName"></td>
+                <td id="fieldCode"></td>
+                <td id="fieldDescribe"></td>
+                <td id="fieldLength"></td>
+                <td id="createdBy"></td>
+                <td>
+                    <a href="javascript:;" id="editField">编辑</a>
+                    <a href="javascript:;" id="deleteField">删除</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="noDataCon" id="noDataCon2">
+            <i></i>
+            <p>暂无数据......</p>
+        </div>
+        <div class="tcdPageCode tcdPageCode2"></div>
+    </div>
+
+
+
+
    
 </div>
 
-
+<!-- 新建表-->
 <div id="metaData-create" class="popup" style="display:none">
     <div class="title" style="">
         <h2>新建表</h2>
@@ -394,6 +442,51 @@
             <div class="btn">
                 <a href="javascript:" class="btnOne btnStyle1 mr10" id="createTableSure">确定</a>
                 <a href="javascript:" class="btnSecond btnStyle1_1" id="createTableCancel">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- -->
+
+<div id="metaData-create-field" class="popup" style="display:none">
+    <div class="title" style="">
+        <h2>新建字段</h2>
+        <div>
+            <a class="min" href="javascript:;" title="最小化" style="display:none;"></a>
+            <a class="max" href="javascript:;" title="最大化" style="display:none;"></a>
+            <a class="revert" href="javascript:;" title="还原" style="display:none;"></a>
+            <a class="close" href="javascript:;" title="关闭" style="display:block;"></a>
+        </div>
+    </div>
+    <div class="content" style="height: 220px;">
+        <div class="metaData-create-list" id="">
+            <ul class="clearfix">
+                <li class="ml20"><label>字段名：</label><input type="text" class="required" id="fieldName"></li>
+                <li class="ml20"><label>字段CODE：</label><input type="text" class="required" id="fieldCode"></li>
+                <li class="ml20"><label>字段描述：</label><input type="text" class="required" id="fieldDescribe"></li>
+                <li class="ml20"><label>字段长度：</label><input type="text" class="required" id="fieldLength"></li>
+                <li class="ml20">
+                    <label>字段类型：</label>
+                    <select name="" id="fieldType" style="width:130px;">
+                        <option value="1">BIT</option>
+                        <option value="2">TINYINT</option>
+                        <option value="3">BIGINT</option>
+                        <option value="4">DATE</option>
+                        <option value="5">DATETIME</option>
+                        <option value="6">TIMESTAMP</option>
+                        <option value="7">TIME</option>
+                        <option value="8">VARCHAR</option>
+                        <option value="9">CHAR</option>
+                    </select>
+                </li>
+                <li class="ml20">
+                    <label>是否启用：</label>
+                    <input type="checkbox" checked>
+                </li>
+            </ul>
+            <div class="btn">
+                <a href="javascript:" class="btnOne btnStyle1 mr10" id="createFieldSure">确定</a>
+                <a href="javascript:" class="btnSecond btnStyle1_1" id="createFieldCancel">取消</a>
             </div>
         </div>
     </div>
