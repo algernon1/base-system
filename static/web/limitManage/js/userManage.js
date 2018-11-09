@@ -70,6 +70,7 @@ function clsMethodLee$parse(){
     }
     if(this.acctType == 0){//超级管理
         $(".userNewPopup-ulist-listPosition").eq(1).remove();
+        $("#userType option[value!=1]").remove();
 
     }else if(this.acctType == 1){//管理员
     }else if(this.acctType == 2){//用户
@@ -111,6 +112,7 @@ function clsMethodLee$operate(){
     });
 
     this.userNew.on("click",function(){//新建用户点击操作
+
         document.body.jsLee.editListMark = 0;
         openWin("600","500","userNewPopup",true);
         $("#selectOrganizationPopup").hide();

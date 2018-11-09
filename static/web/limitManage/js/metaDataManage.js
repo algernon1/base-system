@@ -61,7 +61,8 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
         "metaDataChildTable":"#metaData-child-table",
         "filedList":"#filedList",
         "metaDataCreateField":"#metaData-create-field",
-        "fieldType":"#fieldType"
+        "fieldType":"#fieldType",
+        "tabMenu":"#tab-menu"
 
 	}
 
@@ -254,6 +255,7 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.id
         },
         clickCheckExp: function(e){
+            this.tabMenu.find("li[nidx=0]").click();
             this.metaDataChildTable.attr("reqParam",JSON.stringify({"tableId":utils.getDom(e).parents("#cloneRow")[0].jsonData.id}))
             document.body.jsCtrl.ctrl = this.metaDataChildTable[0];
             document.body.jsCtrl.init();
@@ -280,8 +282,8 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
         },
 
 
-        clickCheckField:function(e){
-
+        clickCheckField:function(e){//点击查看字段按钮
+            this.tabMenu.find("li[nidx=1]").click();
             var tableId = utils.getDom(e).parents("tr")[0].jsonData.id;
             this.filedList.attr({
                 "comtype":"standardTableCtrl",
@@ -291,7 +293,8 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             document.body.jsCtrl.ctrl = this.filedList[0];
             document.body.jsCtrl.init();
         },
-        clickCreateField:function(e){
+        clickCreateField:function(e){//点击新增字段按钮
+            this.tabMenu.find("li[nidx=1]").click();
             var tableId = utils.getDom(e).parents("tr")[0].jsonData.id;
             this.filedList.attr({
                 "comtype":"standardTableCtrl",

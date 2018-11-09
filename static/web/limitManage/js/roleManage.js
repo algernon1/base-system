@@ -83,6 +83,7 @@ function roleSuccessFunc(data){
             
             roleManage.prototype.initTree();
             $("#chooseZzBtn").click(function(){
+                if(GetQueryString("orgId"))orgId = GetQueryString("orgId");
                 $("#chooseZz").show();
                 var a = new treeCheck();
                 a.loopLoad({
@@ -355,7 +356,7 @@ function roleSuccessFunc(data){
 	roleManage.prototype = {
 		constructor:roleManage,
 		init:function(){
-            if(orgId ){
+            if(orgId){
                 getAjaxResult("/orgInfo/getChildTreeOrgInfo","POST",{"parentId":orgId },"roleManage.utils.initOrg(data)")
             }else{
                 orgId = $.cookie("orgId")
@@ -363,9 +364,14 @@ function roleSuccessFunc(data){
                 getAjaxResult("/orgInfo/getChildTreeOrgInfo","POST",{"parentId":orgId },"roleManage.utils.initOrg(data)")
             }
 
-            $("#czSureBtn").click(function(){//选择组织确认按钮
-                //初始化加载domtree
-                roleManage.prototype.initTree();
+            $("#czSureBtn").click(function(e){//选择组织确认按钮
+                if(GetQueryString("orgId")){
+                    window.location.href = "/static/web/limitManage/html-gulp-www/roleManage.html?orgId="+$("#looptree2 .domTreeActive").parents("li")[0].data.id;
+                }else{
+
+                    //初始化加载domtree
+                    roleManage.prototype.initTree(e);
+                }
 
                 closePopupWin();
             });
@@ -867,9 +873,8 @@ function roleSuccessFunc(data){
             var e = e || event;
             var target = e.target || e.srcElement;
 
-            if(!orgId){
-                orgId = "";
-            }
+            if(GetQueryString("orgId"))orgId = GetQueryString("orgId");
+
             getAjaxResult("/roleInfo/roleInfoTree", "post", {
                 "orgIdAll":orgId,
                 "sysId":$("#sysList").find("option:selected").val()
