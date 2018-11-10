@@ -80,8 +80,8 @@
 		})
         //退出接口
         function quitFun(data){
-            var jsData=JSON.parse(data);//JSON.parse(data);
-            if(jsData.retCode=="0000000"){
+            //var jsData=JSON.parse(data);//JSON.parse(data);
+            if(data.retCode=="0000000"){
                 $.cookie("acctId",null,{path:"/"});
                 $.cookie("orgId",null,{path:"/"});
                 $.cookie("acctType",null,{path:"/"});//0超级管理员， 1管理员， 2用户
@@ -284,7 +284,7 @@
         <div class="fl metaData-search__btn" comtype="searchBtnCtrl" cond="tableName" rule="cond" uniontableid="tableList" parentid="searchBox" id="searchBtn">搜索</div>
         <div class="metaData-search__btn fl" id="createTable" style="margin-left: 10px;">新建</div>
     </div>
-    <table id="tableList" class="metaData-table" comtype="" templateid="templateRow" page="tcdPageCode" idx="indexNum" reqpath="/theMetadata/findpageresult" reqparam="{}" method="POST" nodata="noDataCon" reqmethod="POST">
+    <table id="tableList" class="metaData-table" comtype="" templateid="templateRow" page="tcdPageCode0" idx="indexNum" reqpath="/theMetadata/findpageresult" reqparam="{}" method="POST" nodata="noDataCon" reqmethod="POST">
         <tr>
             <th>序号</th>
             <th>表名</th>
@@ -326,19 +326,23 @@
         <i></i>
         <p>暂无数据......</p>
     </div>
-    <div class="tcdPageCode"></div>
+    <div class="tcdPageCode tcdPageCode0"></div>
 
 
+    <ul class="tabMenu-two" comtype="tabCtrl" contentCls="metaData-table-box" id="tab-menu">
+        <li nidx="0" class="tabTitLi"><span>表达式列表</span></li>
+        <li nidx="1"><span>字段列表</span></li>
+    </ul>
     <div class="metaData-table-box">
-        <table  class="metaData-table" id="metaData-child-table" border="0" cellspacing="0" cellpadding="0" class="metaData-child-table" id="" templateParentId="templateParent" templateChildId="templateChild" templateGrandChildId="templateGrandChild" comType="thirdLevelTableCtrl" nStartStep="0" jsonSecondName="children" jsonThirdName="children" reqPath="/powerExpression/findpageresult" reqParam="{}" idx="idx" nodata="noDataCon1" page="tcdPageCode1">
+        <table  class="metaData-table" id="metaData-child-table" border="0" cellspacing="0" cellpadding="0" class="metaData-child-table" id="" templateParentId="templateParent" templateChildId="templateChild" templateGrandChildId="templateGrandChild" comType="" nStartStep="0" jsonSecondName="children" jsonThirdName="children" reqPath="/powerExpression/findpageresult" reqParam="{}" parentIdx="idx" nodata="noDataCon1" page="tcdPageCode1">
             <!--第一个表格-->
             <thead>
                 <tr>
                     <th style="width: 5%" class="leftBorder">序号</th>
-                    <th style="width: 15%" class="leftBorder">创建人</th>
-                    <th style="width: 14%">维度</th>
-                    <th style="width: 28%">名称</th>
-                    <th style="width: 28%">表达式</th>
+                    <!-- <th style="width: 15%" class="leftBorder">创建人</th> -->
+                    <th style="width: 17%">维度</th>
+                    <th style="width: 34%">名称</th>
+                    <th style="width: 34%">表达式</th>
                     <th style="width: 10%">操作</th>            
                 </tr>
             </thead>
@@ -346,8 +350,8 @@
                 <!--一行开始-->
                 <tr style="display:none" id="templateParent">
                     <td id="idx" style="width: 5%"></td>
-                    <td id="createdBy" style="width: 15%"></td>
-                    <td colspan="3" style="width: 70%">
+                    <!-- <td id="createdBy" style="width: 15%"></td> -->
+                    <td colspan="3" style="width: 85%">
                         <table style="width: 100%;">
                             <tr id="templateChild" style="display:none">
                                 <td id="typeStr" style="width: 20%">
@@ -368,7 +372,7 @@
                     </td>
                     <td>
                         <a href="javascript:;" id="deletePermission">删除</a>
-                        <a href="javascript:;" id="checkPermission">查看</a>
+                        <a href="javascript:;" id="checkPermission">编辑</a>
                     </td>
                 </tr>
             </tbody>
@@ -379,8 +383,8 @@
         </div>
         <div class="tcdPageCode tcdPageCode1"></div>
     </div>
-    <div class="metaData-table-box">
-        <table id="filedList" _tableId="" class="metaData-table" comtype="" templateid="templateRow" page="tcdPageCode2" idx="indexNum" reqpath="" reqparam="{}" method="POST" nodata="noDataCon2" reqmethod="POST">
+    <div class="metaData-table-box" style="display:none">
+        <table id="filedList" _tableId="" class="metaData-table" comtype="" templateid="templateRow" page="tcdPageCode2" idx="indexNum" reqpath="/metadataField/findpageresult" reqparam="{}" method="POST" nodata="noDataCon2" reqmethod="POST">
             <tr>
                 <th>序号</th>
                 <th>字段名称</th>
@@ -446,8 +450,9 @@
         </div>
     </div>
 </div>
-<!-- -->
 
+
+<!-- 新建字段-->
 <div id="metaData-create-field" class="popup" style="display:none">
     <div class="title" style="">
         <h2>新建字段</h2>
@@ -481,7 +486,7 @@
                 </li>
                 <li class="ml20">
                     <label>是否启用：</label>
-                    <input type="checkbox" checked>
+                    <input type="checkbox" checked id="status">
                 </li>
             </ul>
             <div class="btn">

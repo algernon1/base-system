@@ -4,6 +4,7 @@
  var requestUrl = "";	//请求后台地址
 var currEnv = "php";	//html或者php
 var jsonReqHeaderData={}
+jsonReqHeaderData.acctId = ($.cookie("acctId"))?$.cookie("acctId"):null;
 /*****************************用户测试地址*************************************/
 //var requestUrl = "http://10.4.105.172:8051";	//请求后台地址
 

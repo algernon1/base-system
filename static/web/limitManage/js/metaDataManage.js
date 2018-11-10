@@ -104,6 +104,11 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
         clearValue: function(dom){
             $(dom).find("input").val("");
             $(dom).find("#status").prop("checked",true);
+            if($(dom).find("select")){
+                $(dom).find("select option").prop("checked",false);
+                $(dom).find("select option").eq(0).prop("checked",true);
+                $(dom).find("select").trigger('chosen:updated');
+            }
         }
 	}
 
@@ -135,10 +140,35 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             }
         },
         initData: function(){
+
         	var reqParam = {"sysId":this.sysList.find("option:selected").val()};
         	this.tableList.attr({"reqParam":JSON.stringify(reqParam),"comtype":"standardTableCtrl"});
             document.body.jsCtrl.ctrl = this.tableList[0];
             document.body.jsCtrl.init();
+
+            var tableId = "";
+            if(this.tableList.find("tr").eq(1).attr("id") == "cloneRow"){
+                tableId = this.tableList.find("tr").eq(1)[0].jsonData.id;
+                this.tableList.find("tr").eq(1).addClass("grayBg")
+            }
+            this.metaDataChildTable.attr({
+                "reqParam":JSON.stringify({"tableId":tableId}),
+                "comtype":"thirdLevelTableCtrl"
+            });
+                
+
+            document.body.jsCtrl.ctrl = this.metaDataChildTable[0];
+            document.body.jsCtrl.init();
+
+
+            this.filedList.attr({
+                "reqParam":JSON.stringify({"tableId":tableId}),
+                "comtype":"standardTableCtrl"
+            });
+            
+            document.body.jsCtrl.ctrl = this.filedList[0];
+            document.body.jsCtrl.init();
+
         },
         changeSysList: function(){
             this.initData();
@@ -259,6 +289,10 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             this.metaDataChildTable.attr("reqParam",JSON.stringify({"tableId":utils.getDom(e).parents("#cloneRow")[0].jsonData.id}))
             document.body.jsCtrl.ctrl = this.metaDataChildTable[0];
             document.body.jsCtrl.init();
+            
+            utils.getDom(e).parents("table").find("tr").removeClass("grayBg");
+            utils.getDom(e).parents("tr").addClass("grayBg");
+
         },
         clickDeletePermission:function(e){//删除权限
             var data = utils.getDom(e).parents("tr")[0].jsonData;
@@ -278,7 +312,7 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
         },
         clickCheckPermissionn:function(e){//查看权限
             var data = utils.getDom(e).parents("tr")[0].jsonData;
-            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.id + "&powerExpressionId=" + data.powerExpressionId
+            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.tableId + "&powerExpressionId=" + data.powerExpressionId
         },
 
 
@@ -292,10 +326,16 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             })
             document.body.jsCtrl.ctrl = this.filedList[0];
             document.body.jsCtrl.init();
+
+            utils.getDom(e).parents("table").find("tr").removeClass("grayBg");
+            utils.getDom(e).parents("tr").addClass("grayBg");
         },
         clickCreateField:function(e){//点击新增字段按钮
+
             this.tabMenu.find("li[nidx=1]").click();
             var tableId = utils.getDom(e).parents("tr")[0].jsonData.id;
+            this.metaDataCreateField[0].jsonData = utils.getDom(e).parents("tr")[0].jsonData;
+            this.metaDataCreateField[0].type = "save";
             this.filedList.attr({
                 "comtype":"standardTableCtrl",
                 "reqParam":JSON.stringify({"tableId":tableId}),
@@ -303,9 +343,13 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
                 "_tableId":tableId
             })
 
+            utils.getDom(e).parents("table").find("tr").removeClass("grayBg");
+            utils.getDom(e).parents("tr").addClass("grayBg");
+
             document.body.jsCtrl.ctrl = this.filedList[0];
             document.body.jsCtrl.init();
 
+            utils.clearValue(this.metaDataCreateField[0])
             openWin(500, 300, "metaData-create-field", true);
 
             $(this.fieldType).chosen({
@@ -333,13 +377,18 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
                 "fieldName":this.metaDataCreateField.find("#fieldName").val(),
                 "fieldType":this.metaDataCreateField.find("#fieldType option:selected").val(),
                 "status":status,
-                "tableId":this.metaDataCreateField[0].jsonData.tableId,
+                "tableId":this.metaDataCreateField[0].jsonData.id,
                 "fieldId":this.metaDataCreateField[0].jsonData.fieldId
             };
 
+            if(this.metaDataCreateField[0].type == "save"){
+                var reqPath = "/metadataField/save";
+            }else{
+                var reqPath = "/metadataField/update";
+            }
 
             getAjaxResultNew({
-                "strPath":"/metadataField/update", 
+                "strPath":reqPath, 
                 "method":"post", 
                 "param":reqParam, 
                 "ctrl":this.filedList,
@@ -362,6 +411,7 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             openWin(500, 300, "metaData-create-field", true);
             setValue4Desc(utils.getDom(e).parents("#cloneRow")[0].jsonData,this.metaDataCreateField[0]);
             this.metaDataCreateField[0].jsonData = utils.getDom(e).parents("#cloneRow")[0].jsonData;
+            this.metaDataCreateField[0].type = "update";
             $(this.fieldType).chosen({
                 //disable_search_threshold: 5,
                 search_contains: true,

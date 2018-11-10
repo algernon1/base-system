@@ -80,8 +80,8 @@
 		})
         //退出接口
         function quitFun(data){
-            var jsData=JSON.parse(data);//JSON.parse(data);
-            if(jsData.retCode=="0000000"){
+            //var jsData=JSON.parse(data);//JSON.parse(data);
+            if(data.retCode=="0000000"){
                 $.cookie("acctId",null,{path:"/"});
                 $.cookie("orgId",null,{path:"/"});
                 $.cookie("acctType",null,{path:"/"});//0超级管理员， 1管理员， 2用户

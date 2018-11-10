@@ -1,6 +1,6 @@
 function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem) {
 
-    jsonCItem
+    //jsonCItem
 
 }
 
@@ -207,7 +207,8 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                 "acctConfig":[],
                 "roleIds":[],
                 "roleConfig":[],
-                "tableId":GetQueryString("tableId")
+                "tableId":GetQueryString("tableId"),
+                "powerExpressionId":GetQueryString("powerExpressionId")
 
             };
             var arrReqName = options.arrReqName;
@@ -215,8 +216,8 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
 
             //得到组织的保存数据
             for(var n=0;n<3;n++){
-                var aSelectDom = $("#"+[arrIds[n]]).find("#cloneRow");
-                for(var i=0;i<aSelectDom.length;i++){
+                var aSelectDom = $("#"+[arrIds[n]]).find("li");
+                for(var i=0;i<aSelectDom.length-1;i++){
                     reqParam[arrReqName[n]].push(aSelectDom.eq(i)[0].jsonData.id);
                 };
             };
@@ -626,8 +627,13 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
             }
             
             //保存权限
+            if(GetQueryString("powerExpressionId")){
+                var reqPath = "/powerExpression/update";
+            }else{
+                var reqPath = "/powerExpression/save";
+            }
             getAjaxResultNew({
-                "strPath":"/powerExpression/save",
+                "strPath":reqPath,
                 "method":"post",
                 "param":reqParam,
                 "asyncType":false,
@@ -637,7 +643,8 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                 callbackMethod:function(data){
                     data = JSON.parse(data);
                     if(data.retCode == "0000000"){
-                        alert("保存成功！")
+                        alert("保存成功！");
+                        window.location.href = "/static/web/limitManage/html-gulp-www/metaDataManage.html";
                     };
                 }
             });

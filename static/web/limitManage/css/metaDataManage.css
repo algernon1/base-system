@@ -9,6 +9,10 @@
 
 .metaData-table { border: 1px solid #eee; width: 100%; table-layout: fixed; }
 
+.metaData-table .grayBg td { background: #f7f7f7; }
+
+.metaData-table a { color: #6390f3; }
+
 .metaData-table td, .metaData-table th { height: 32px; }
 
 .metaData-table th { text-align: center; border: 1px solid #eee; background: #eaeaeb; height: 40px; }
