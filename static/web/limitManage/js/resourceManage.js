@@ -245,16 +245,16 @@ function clsAlertBoxCtrl$sure() {
             if(obj.validateAll())
             {
                 this.getSysId();
-                if(this.resourchSe.find("#status").prop("checked")){
-                    var status = 1
-                }else{
-                    var status = 0;
-                }
+                // if(this.resourchSe.find("#status").prop("checked")){
+                //     var status = 1
+                // }else{
+                //     var status = 0;
+                // }
                 if(this.resourchSe.find("h2").html() == "新建权限" ){//新建
                     var reqParam = {
                         "functionTitle":this.resourchSe.find("#functionTitle").val(),
-                        "opt":"insert","orgId":orgId,
-                        "sysId":window.sysId,"status":this.resourchSe.find("#status").prop("checked"),
+                        "opt":"insert",
+                        "sysId":window.sysId,
                         "functionPath":this.resourchSe.find("#functionPath").val(),
                         "status":1
                     };

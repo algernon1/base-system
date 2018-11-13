@@ -14,7 +14,10 @@ function clsThirdLevelTableCtrl$childProgress(jsonCItem, cloneRow, jsonItem) {
             break;
     }
 }
-
+function clsSearchBtnCtrl$after(jsonCond) {
+    jsonCond.sysId = $(metaDataManage.Eles.sysList).find("option:selected").val();
+    return jsonCond;
+}
 
 (function($, global, doc){
 	'use strict';

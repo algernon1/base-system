@@ -595,7 +595,11 @@ function roleSuccessFunc(data){
             /*************************给角色分配权限开始***************************/
             $("#checkRole").click(function(){
 
-                var reaParam = {"orgId":orgId ,"roleId":$("#detailRow")[0].data.roleId};
+                // var reaParam = {
+                //     "orgId":orgId ,
+                //     "roleId":$("#detailRow")[0].data.roleId,
+                //     "type":$("#detailRow")[0].data.type
+                // };
                 openWin(400, 300, "resourchSeSet", true);
 
 
@@ -693,9 +697,9 @@ function roleSuccessFunc(data){
                     data = JSON.parse(data);
                     if(data.retCode == "0000000"){
                         //alert("操作成功");
+                        closePopupWin();
                         var alertObj = new clsAlertBoxCtrl();
                         alertObj.Alert("操作成功","提示",true);
-                        closePopupWin();
                     }
                 });
             });
@@ -746,9 +750,9 @@ function roleSuccessFunc(data){
                     data = JSON.parse(data);
                     if(data.retCode == "0000000"){
                         //alert("操作成功");
+                        closePopupWin();
                         var alertObj = new clsAlertBoxCtrl();
                         alertObj.Alert("操作成功","提示",true);
-                        closePopupWin();
                     }
                 });
             })
@@ -885,7 +889,8 @@ function roleSuccessFunc(data){
             getAjaxResult("/functionManage/functionManageRoleList", "post", {
                 "orgId":data.orgId,
                 "roleId":data.roleId,
-                "sysId":$("#sysList").find("option:selected").val()
+                "sysId":$("#sysList").find("option:selected").val(),
+                "type":data.type
             }, 'roleManage.utils.initTreeList(data,"looptree1",true)');
         },
         initializeOrdinaryEvents: function(maps){

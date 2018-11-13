@@ -35,10 +35,18 @@
                 expiresDate.setTime(expiresDate.getTime() + (30*60*1000));
                 $.cookie('acctId',jsData.rspBody.acctId,{ path: '/' });
                 $.cookie('orgId',jsData.rspBody.oInfoId,{ path: '/' });
-                $.cookie('acctType',jsData.rspBody.acctType,{ path: '/' });//0超级管理员， 1管理员， 2用户
+                $.cookie('acctType',jsData.rspBody.acctType,{ path: '/' });//0超级管理员， 1管理员， 2用户，3系统管理员
+
+                var limitCodeArr = jsData.rspBody.permissions
+                //登陆时，登陆成功后，把后台返回的权限集合存储在localStorage中
+                if(window.Storage && window.localStorage && window.localStorage instanceof Storage){
+                    window.localStorage.limitCode = JSON.stringify(limitCodeArr);
+                }else{
+                    setCookie("limitCode",JSON.stringify(limitCodeArr));
+                }
                 // $.cookie('acctId',jsData.rspBody.acctId,{ expires: expiresDate, path: '/' });
                 // $.cookie('orgId',jsData.rspBody.oInfoId,{ expires: expiresDate, path: '/' });
-                // $.cookie('acctType',jsData.rspBody.acctType,{ expires: expiresDate, path: '/' });//0超级管理员， 1管理员， 2用户
+                // $.cookie('acctType',jsData.rspBody.acctType,{ expires: expiresDate, path: '/' });//0超级管理员， 1管理员， 2用户，3系统管理员
                 window.location.href="/static/web/homePage/html-gulp-www/homePage.html";
             }else{
                 //alert(jsData.retDesc);
