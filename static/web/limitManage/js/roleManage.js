@@ -74,12 +74,12 @@ function roleSuccessFunc(data){
 	roleManage.utils = {//工具类
         initOrg: function(data){
             data = JSON.parse(data).rspBody.children;
-            console.log(data)
-            if(data.length == 0){
-                orgId = $.cookie("orgId");
-            }else{
-               orgId = data[0].id;
-            }
+            // console.log(data)
+            // if(data.length == 0){
+            //     orgId = $.cookie("orgId");
+            // }else{
+            //    orgId = data[0].id;
+            // }
             
             roleManage.prototype.initTree();
             $("#chooseZzBtn").click(function(){
@@ -96,6 +96,8 @@ function roleSuccessFunc(data){
                 });
                 $("#looptree2").treeview();
                 openWin(400, 380, "chooseZz", true);
+                
+
                 
             })
 
@@ -349,6 +351,13 @@ function roleSuccessFunc(data){
                     $("#"+dom)[0].data.status = 0;
                 }
             }
+        },
+        checkHasSys:function(){
+
+            if($("#sysList option:selected").val() == ""){
+                alert("请先给该组织引用系统！")
+                return true;
+            }
         }
 	}
 
@@ -363,10 +372,20 @@ function roleSuccessFunc(data){
                 if(orgId .length == 11)$("#chooseZzBtn").hide();
                 getAjaxResult("/orgInfo/getChildTreeOrgInfo","POST",{"parentId":orgId },"roleManage.utils.initOrg(data)")
             }
+            $("#sysList").attr({"reqParam":JSON.stringify({"orgId":orgId})});
+            document.body.jsCtrl.ctrl = $("#sysList")[0];
+            document.body.jsCtrl.init();
 
             $("#czSureBtn").click(function(e){//选择组织确认按钮
+
+                $("#sysList").attr({"reqParam":JSON.stringify({"orgId":$("#looptree2 .domTreeActive").parents("li")[0].data.id})});
+                document.body.jsCtrl.ctrl = $("#sysList")[0];
+                document.body.jsCtrl.init();
+                $("#detailRow").hide();
+                $("#detailRow1").hide();
+
                 if(GetQueryString("orgId")){
-                    window.location.href = "/static/web/limitManage/html-gulp-www/roleManage.html?orgId="+$("#looptree2 .domTreeActive").parents("li")[0].data.id;
+                    window.location.href = "./roleManage.html?orgId="+$("#looptree2 .domTreeActive").parents("li")[0].data.id;
                 }else{
 
                     //初始化加载domtree
@@ -412,6 +431,7 @@ function roleSuccessFunc(data){
 
             /************************新建角色开始***************************/
             $("#createNewRule").click(function(){
+                if(roleManage.utils.checkHasSys())return;
                 $("#creatRule").show();
                 $("#creatRuleEdit").hide();
 
@@ -542,6 +562,7 @@ function roleSuccessFunc(data){
 
             /************************新建分类开始***************************/
             $("#createNewRules").click(function(){
+                if(roleManage.utils.checkHasSys())return;
                 $("#creatRules").show();
                 $("#creatRulesEdit").hide();
                 openWin(400, 200, "resourchFl", true);

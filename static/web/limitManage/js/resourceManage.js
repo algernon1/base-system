@@ -169,11 +169,15 @@ function clsAlertBoxCtrl$sure() {
             });
         },
         initOrg: function(data,obj){
-            
-            data = JSON.parse(data).rspBody;
+            if(JSON.parse(data).rspBody && JSON.parse(data).rspBody.length > 0 ){
+                data = JSON.parse(data).rspBody;
 
-            this.initTree(data[0].sysId);
-            obj.chooseZz[0].data = data;
+                this.initTree(data[0].sysId);
+                obj.chooseZz[0].data = data;
+            }else{
+                //alert("请先创建系统");
+                return;
+            }
 
             var sysId = GetQueryString("sysId");//系统id
             if(sysId){
@@ -218,7 +222,10 @@ function clsAlertBoxCtrl$sure() {
 
 
         clickRoot: function(e){//点击根目录
-
+            if(!this.sysList.find("option:selected")[0]){
+                alert("请先创建系统")
+                window.location.href = "./systemManage.html";
+            }
             this.resourceAdConLeft.find("a").removeClass("domTreeActive");
             utils.getDom(e).addClass("domTreeActive");
 

@@ -93,12 +93,12 @@ function tissueAdmin(){
 
 
 
-            /******************角色赋权开始*******************/
-            // getAjaxResult("/orgInfoType/selectOrgCompanyIdType", "post", {
-            //     "orgId":$(this).parents('li')[0].data.id,
-            // }, "successEchoFunc(data)");
+            /******************组织赋权开始*******************/
+            getAjaxResult("/orgInfoType/selectOrgCompanyIdType", "post", {
+                "orgId":$(this).parents('li')[0].data.id,
+            }, "successEchoFunc(data)");
 
-            /*******************角色赋权结束*******************/
+            /*******************组织赋权结束*******************/
         })
         //点击停用和启用的时候
         $("#fotTable #stateU").on("click",function(){

@@ -268,7 +268,7 @@ function clsAlertBoxCtrl$sure() {
         },
         clickCheckResource: function(e){
             var data = utils.getDom(e).parents("#detailRow")[0].data;
-            window.location.href = "/static/web/limitManage/html-gulp-www/resourceManage.html?sysId="+data.sysId
+            window.location.href = "./resourceManage.html?sysId="+data.sysId
         },
         deleteWarn: function(data){
             var a = new clsAlertBoxCtrl();

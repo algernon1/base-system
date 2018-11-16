@@ -285,7 +285,7 @@ function clsSearchBtnCtrl$after(jsonCond) {
         },
         clickCreateOrEditExp: function(e){
             var data = utils.getDom(e).parents("tr")[0].jsonData
-            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.id
+            window.location.href = "./createExp.html?tableId=" + data.id
         },
         clickCheckExp: function(e){
             this.tabMenu.find("li[nidx=0]").click();
@@ -315,7 +315,7 @@ function clsSearchBtnCtrl$after(jsonCond) {
         },
         clickCheckPermissionn:function(e){//查看权限
             var data = utils.getDom(e).parents("tr")[0].jsonData;
-            window.location.href = "/static/web/limitManage/html-gulp-www/createExp.html?tableId=" + data.tableId + "&powerExpressionId=" + data.powerExpressionId
+            window.location.href = "./createExp.html?tableId=" + data.tableId + "&powerExpressionId=" + data.powerExpressionId
         },
 
 

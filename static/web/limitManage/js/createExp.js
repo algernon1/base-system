@@ -644,7 +644,7 @@ function clsThirdLevelTableCtrl$grandChildProgress(jsonCItem, cloneRow, jsonItem
                     data = JSON.parse(data);
                     if(data.retCode == "0000000"){
                         alert("保存成功！");
-                        window.location.href = "/static/web/limitManage/html-gulp-www/metaDataManage.html";
+                        window.location.href = "./metaDataManage.html";
                     };
                 }
             });
